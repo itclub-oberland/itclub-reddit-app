@@ -6,16 +6,16 @@
     <link rel="stylesheet" href="./css/reddit.css"/>
 </head>
 <body>
-<nav>
-    <div class="nav user-input">
-        <label for="username">Username:</label>
+<nav class="nav nav--theme-default">
+    <div class="nav__user-input">
+        <label for="username" class="nav__user-input-label">Username:</label>
         <input id="username" type="text"/>
         <label for="password">Password:</label>
-        <input id="password" type="password">
-        <button id="newUserBtn" class="btn btn-primary">Add User</button>
+        <input id="password" type="password" autocomplete="new-password">
+        <button id="newUserBtn" class="btn btn--primary">Add User</button>
     </div>
-    <h1 class="nav title">IT Club Reddit App</h1>
-    <div class="nav user-list">
+    <h1 class="nav__title">IT Club Reddit App</h1>
+    <div class="nav__user-list">
         <label>
             <select id="usersDropdown">
                 <option selected>ZmOtey</option>
@@ -23,251 +23,42 @@
         </label>
     </div>
 </nav>
-<main>
+
+<main class="main">
     <div class="content">
         <h2>My Reddit Stream</h2>
         <div class="topics">
-            <div class="topics-list">
-                <button class="topic-btn topic-btn-primary">Travel</button>
-                <button class="topic-btn topic-btn-primary">Movie</button>
-                <button class="topic-btn topic-btn-primary">Car</button>
+            <div class="topics__list">
+                <button class="topic-btn topic-btn--primary">Travel</button>
+                <button class="topic-btn topic-btn--primary">Movie</button>
+                <button class="topic-btn topic-btn--primary">Car</button>
             </div>
-            <div class="new-topic-container">
-                <input id="newTopic" class="new-topic" type="text" placeholder="New Topic..."/>
-                <button id="addNewTopicBtn" class="btn btn-primary">Add Topic</button>
+            <div class="new-topic">
+                <input id="newTopic" class="new-topic__input" type="text" placeholder="New Topic..."/>
+                <button id="addNewTopicBtn" class="btn btn--primary">Add Topic</button>
             </div>
         </div>
         <hr>
-        <div class="new-post-container">
-            <label for="newPostTitle">Title</label>
-            <input id="newPostTitle" type="text" placeholder="Your Post Title..."/>
-            <label for="newPostImageUrl">Image URL</label>
-            <input id="newPostImageUrl" type="text" placeholder="Some Online URL here..."/>
-            <select id="newPostCategory">
+        <div class="new-post">
+            <label for="newPostTitle" class="new-post__title-label">Title</label>
+            <input id="newPostTitle" class="new-post__title-input"type="text" placeholder="Your Post Title..."/>
+            <label for="newPostImageUrl" class="new-post__image-label">Image URL</label>
+            <input id="newPostImageUrl" class="new-post__image-input" type="text" placeholder="Some Online URL here..."/>
+            <select id="newPostCategory" class="new-post__category-input">
                 <option>Category</option>
             </select>
-            <label for="newPostMessage">Message</label>
-            <textarea id="newPostMessage" placeholder="Your message here..."></textarea>
-            <button id="newPostBtn" class="btn btn-primary">New Post</button>
+            <label for="newPostMessage" class="new-post__message-label">Message</label>
+            <textarea id="newPostMessage" class="new-post__message-input" placeholder="Your message here..."></textarea>
+            <button id="newPostBtn" class="new-post__post-btn btn btn--primary">New Post</button>
         </div>
-        <div id="redditStreamContainer" class="reddit-stream-container">
-            <div class="reddit-post">
-                <div class="post-main">
-                    <div class="arrows">
-                        <button class="js-vote-up-btn arrow up"></button>
-                        <p class="js-vote-count-text">15</p>
-                        <button class="js-vote-down-btn arrow down"></button>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-body">
-                            <div class="post-body-header">
-                                <div class="post-body-header-text">
-                                    <div class="post-topic">Travel</div>
-                                    <div class="post-user">Zmotey</div>
-                                    <h2 class="post-heading">Heading</h2>
-                                </div>
-                                <div class="post-body-header-image">
-                                    <img src="https://www.lieco.at/wp-content/uploads/2015/11/placeholder-300x225.png"/>
-                                </div>
-                            </div>
-                            <p class="post-message">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                                nonumy
-                                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-                                vero
-                                eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                                takimata
-                                sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-                                sadipscing
-                                elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                                sed
-                                diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                                gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            <div class="post-body-comment">
-                                <textarea class="post-body-comment-message"></textarea>
-                                <button class="js-comment-btn post-body-comment-btn btn-post btn-primary">Comment
-                                </button>
-                                <button class="js-show-comments post-body-show-comments-btn btn-post btn-primary">Show
-                                    All
-                                </button>
-                                <button class="js-hide-comments post-body-hide-comments-btn btn-post btn-primary">Hide
-                                    All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-comments">
-                    <h3>Comments</h3>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="reddit-post">
-                <div class="post-main">
-                    <div class="arrows">
-                        <button class="js-vote-up-btn arrow up"></button>
-                        <p class="js-vote-count-text">15</p>
-                        <button class="js-vote-down-btn arrow down"></button>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-body">
-                            <div class="post-body-header">
-                                <div class="post-body-header-text">
-                                    <div class="post-topic">Travel</div>
-                                    <div class="post-user">Zmotey</div>
-                                    <h2 class="post-heading">Heading</h2>
-                                </div>
-                                <div class="post-body-header-image">
-                                    <img src="https://www.lieco.at/wp-content/uploads/2015/11/placeholder-300x225.png"/>
-                                </div>
-                            </div>
-                            <p class="post-message">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                                nonumy
-                                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-                                vero
-                                eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                                takimata
-                                sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-                                sadipscing
-                                elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                                sed
-                                diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                                gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            <div class="post-body-comment">
-                                <textarea class="post-body-comment-message"></textarea>
-                                <button class="js-comment-btn post-body-comment-btn btn-post btn-primary">Comment
-                                </button>
-                                <button class="js-show-comments post-body-show-comments-btn btn-post btn-primary">Show
-                                    All
-                                </button>
-                                <button class="js-hide-comments post-body-hide-comments-btn btn-post btn-primary">Hide
-                                    All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-comments">
-                    <h3>Comments</h3>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="reddit-post">
-                <div class="post-main">
-                    <div class="arrows">
-                        <button class="js-vote-up-btn arrow up"></button>
-                        <p class="js-vote-count-text">15</p>
-                        <button class="js-vote-down-btn arrow down"></button>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-body">
-                            <div class="post-body-header">
-                                <div class="post-body-header-text">
-                                    <div class="post-topic">Travel</div>
-                                    <div class="post-user">Zmotey</div>
-                                    <h2 class="post-heading">Heading</h2>
-                                </div>
-                                <div class="post-body-header-image">
-                                    <img src="https://www.lieco.at/wp-content/uploads/2015/11/placeholder-300x225.png"/>
-                                </div>
-                            </div>
-                            <p class="post-message">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                                nonumy
-                                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-                                vero
-                                eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                                takimata
-                                sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-                                sadipscing
-                                elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                                sed
-                                diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                                gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            <div class="post-body-comment">
-                                <textarea class="post-body-comment-message"></textarea>
-                                <button class="js-comment-btn post-body-comment-btn btn-post btn-primary">Comment
-                                </button>
-                                <button class="js-show-comments post-body-show-comments-btn btn-post btn-primary">Show
-                                    All
-                                </button>
-                                <button class="js-hide-comments post-body-hide-comments-btn btn-post btn-primary">Hide
-                                    All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-comments">
-                    <h3>Comments</h3>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div class="post-comment">
-                        <h3>zMotey</h3>
-                        <p>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                            sed
-                            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </div>
+        <div id="redditStream" class="reddit-stream">
         </div>
     </div>
-    <script src="js/libs/jquery-3.3.1.min.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/model.js"></script>
-    <script src="js/view.js"></script>
-    <script src="js/controller.js"></script>
 </main>
+<script src="js/libs/jquery-3.3.1.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/model.js"></script>
+<script src="js/view.js"></script>
+<script src="js/controller.js"></script>
 </body>
 </html>
