@@ -1,3 +1,11 @@
+/**
+ * This code intentionally doesn't use OO JavaScript
+ * by not using classes or prototypial inheritance.
+ * The purpose of this exercise at this stage is to
+ * be a segue to OO JavaScript
+ * */
+
+
 (function (window) {
     window.RedditApp = window.RedditApp || {};
 
@@ -19,6 +27,19 @@
         };
         this.getMessage = function () {
             return _message;
+        };
+
+        this.toString = function () {
+            return `Owner: ${_owner}
+            Message: ${_message}`;
+        };
+
+        this.toJSON = function () {
+            return {
+                owner: _owner,
+                message: _message,
+                __type: TYPES.COMMENT
+            }
         }
     }
 
@@ -40,6 +61,20 @@
         };
         this.getPassword = function () {
             return _password;
+        };
+
+        this.toString = function () {
+            return `Username: ${_username}
+            Password: ${_password}`;
+        };
+
+
+        this.toJSON = function () {
+            return {
+                username: _username,
+                password: _password,
+                __type: TYPES.USER /* Works, because field is only used when accessed, so the script order doesn't matter*/
+            }
         }
     }
 
@@ -55,6 +90,17 @@
         this.getName = function () {
             return _name;
         };
+
+        this.toString = function () {
+            return `Name: ${_name}`;
+        };
+
+        this.toJSON = function () {
+            return {
+                name: _name,
+                __type: TYPES.TOPIC
+            };
+        }
     }
 
     function Post(topic, owner, title, image, message) {
@@ -158,14 +204,28 @@
         };
 
         this.toString = function () {
-            return `Topic: ${_topic.getName()}, 
-          \nOwner:${_owner.getUsername()},
-          \nImage URL: ${_image},
-          \nTitle:${_title},
-          \nMessage:${_message},
-          \nUpVotes:${_upVotes.join()},
-          \nDownVotes:${_downVotes.join()},
-          \nTotalVotes:${this.getVoteCount()}`;
+            return `Topic: ${_topic}, 
+          Owner:${_owner},
+          Image URL: ${_image},
+          Title:${_title},
+          Message:${_message},
+          UpVotes:${_upVotes.join()},
+          DownVotes:${_downVotes.join()},
+          TotalVotes:${this.getVoteCount()}`;
+        };
+
+        this.toJSON = function () {
+            return {
+                topic: _topic,
+                owner: _owner,
+                title: _title,
+                image: _image,
+                message: _message,
+                comments: _comments,
+                upVotes: _upVotes,
+                downVotes: _downVotes,
+                __type: TYPES.POST
+            };
         }
     }
 

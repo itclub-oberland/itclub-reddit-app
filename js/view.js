@@ -1,3 +1,10 @@
+/**
+ * This code intentionally doesn't use OO JavaScript
+ * by not using classes or prototypial inheritance.
+ * The purpose of this exercise at this stage is to
+ * be a segue to OO JavaScript
+ * */
+
 (function (window) {
     window.RedditApp = window.RedditApp || {};
 
@@ -76,6 +83,38 @@
             }
             return renderedPosts;
         };
+
+        this.renderUserList = function (activeUser, users) {
+            users = users.filter((user) => {
+                return user.getUsername() !== activeUser.getUsername()
+            });
+            let userList = `<option selected>${activeUser.getUsername()}</option>`;
+            for (let user of users) {
+                userList += `<option value="${user.getUsername()}">${user.getUsername()}</option>`;
+            }
+            return userList;
+        };
+
+        this.renderTopicsList = function(activeTopic, topics){
+            let topicsList = `<div class="topics__list">`;
+            for(let topic of topics){
+                let active = '';
+                if(topic.getName() === activeTopic.getName()){
+                    active = 'topic-btn--active';
+                }
+                topicsList += `<button class="topic-btn topic-btn--primary ${active} js-topic-btn">${topic.getName()}</button>`;
+            }
+            topicsList += `</div>`;
+            return topicsList;
+        };
+
+        this.renderTopicDropdown = function(topics){
+            let topicsList ="";
+            for(let topic of topics){
+                topicsList += `<option value="${topic.getName()}">${topic.getName()}</option>`;
+            }
+            return topicsList;
+        }
     }
 
     window.RedditApp.ViewManager = function () {
