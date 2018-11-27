@@ -8,6 +8,7 @@ is missing.
 
 [Live Preview](http://htmlpreview.github.io/?https://raw.githubusercontent.com/itclub-oberland/itclub-reddit-app/master/index.html)
 
+[Documentation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/itclub-oberland/itclub-reddit-app/master/out/index.html)
 ## Required features:
 - Add New User
 - Change Active User
