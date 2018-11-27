@@ -10,8 +10,8 @@
     <div class="nav__user-input">
         <label for="username" class="nav__user-input-label">Username:</label>
         <input id="username" type="text"/>
-        <label for="password">Password:</label>
-        <input id="password" type="password" autocomplete="new-password">
+        <!--<label for="password">Password:</label>-->
+        <!--<input id="password" type="password" autocomplete="new-password">-->
         <button id="newUserBtn" class="btn btn--primary">Add User</button>
     </div>
     <h1 class="nav__title">IT Club Reddit App</h1>
@@ -25,7 +25,10 @@
 
 <main class="main">
     <div class="content">
-        <h2>My Reddit Stream</h2>
+        <div class="content-title">
+            <h2>My Reddit Stream</h2>
+            <button id="clearStorageBtn" class="btn btn--warn">Clear Storage</button>
+        </div>
         <div class="topics">
             <div id="newTopicSection" class="new-topic">
                 <input id="newTopic" class="new-topic__input" type="text" placeholder="New Topic..."/>
@@ -33,8 +36,8 @@
             </div>
         </div>
         <hr>
-        <details>
-            <summary>Add New Post...</summary>
+        <details open>
+            <summary class="new-post-summary-title">Add New Post...</summary>
             <div class="new-post">
                 <label for="newPostTitle" class="new-post__title-label">Title</label>
                 <input id="newPostTitle" class="new-post__title-input"type="text" placeholder="Your Post Title..."/>
@@ -44,7 +47,10 @@
                 </select>
                 <label for="newPostMessage" class="new-post__message-label">Message</label>
                 <textarea id="newPostMessage" class="new-post__message-input" placeholder="Your message here..."></textarea>
-                <button id="newPostBtn" class="new-post__post-btn btn btn--primary">New Post</button>
+                <div class="new-post__post-btn">
+                    <button id="autoFillNewPostBtn" class="btn btn--primary">Autofill</button>
+                    <button id="newPostBtn" class="btn btn--primary">New Post</button>
+                </div>
             </div>
         </details>
         <div id="redditStream" class="reddit-stream">
@@ -53,6 +59,7 @@
 </main>
 <div id="snackbar" class="message"></div>
 <script src="js/libs/jquery-3.3.1.min.js"></script>
+<script src="js/autofill.js"></script>
 <script src="js/model.js"></script>
 <script src="js/view.js"></script>
 <script src="js/storage.js"></script>

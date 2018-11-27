@@ -18,6 +18,7 @@ const TYPES = {
 const VIEW_MANAGER = RedditApp.ViewManager();
 const MODEL_MANAGER = window.RedditApp.ModelManager();
 const STORAGE_MANAGER = RedditApp.StorageManager();
+const AUTOFILL_MANAGER = RedditApp.AutofillManager();
 
 const USER = MODEL_MANAGER.User;
 const TOPIC = MODEL_MANAGER.Topic;

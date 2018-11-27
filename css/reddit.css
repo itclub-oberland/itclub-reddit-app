@@ -108,14 +108,43 @@ select {
     transform: none;
 }
 
+.btn--warn{
+    background-color: #DB4A00;
+    color: #FFDD6C;
+}
+
+.btn--warn:hover {
+    background-color: #db8383;
+    transform: scale(1.01);
+    box-shadow: 0 0 10px #084A8F;
+}
+
+.btn--warn:active{
+    background-color: #772800;
+    color: #FFDD6C;
+    transform: none;
+}
+
+.btn--warn:focus, .btn--primary:focus, .btn-post--primary:focus, .topic-btn--primary:focus{
+    outline:2px solid #2A7BCF;
+}
+
 .content {
     width: 50%;
     display: flex;
     flex-direction: column;
     padding: 2rem;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     transition: 2s width;
+}
+
+.content-title{
+    display:flex;
+}
+
+.content-title > button{
+    margin-left:1rem;
 }
 
 .main {
@@ -205,17 +234,35 @@ select {
     justify-content: flex-end;
 }
 
+@keyframes titleAnim {
+    0%{
+        color:black;
+    }
+    50%{
+        color:#DBA900;
+    }
+    100%{
+        color:black;
+    }
+}
+
+.new-post-summary-title{
+    animation: titleAnim ease-in-out;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
 .new-topic__input {
     width: 100px;
 }
 
 .new-post {
-    background-color: white;
+    background-color: #CEE5FD;
     display: grid;
-    padding: 1rem 0;
     grid-template-columns: 2fr 2fr 1fr;
     grid-template-rows: 30px 30px 30px 1fr;
     grid-column-gap: 10px;
+    padding:1rem;
     align-items: center;
     width: 100%;
     min-height: 300px;
@@ -265,6 +312,11 @@ select {
     grid-row: 4;
     align-self: end;
     width: 100%;
+}
+
+.new-post__post-btn > button{
+    width:100%;
+    margin-top:1rem;
 }
 
 .reddit-stream {
@@ -351,6 +403,7 @@ select {
 .reddit-post__header-text {
     flex-grow: 1;
     display: flex;
+    min-width:160px;
     flex-direction: column;
     justify-content: flex-end;
 }

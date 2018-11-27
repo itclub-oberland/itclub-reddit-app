@@ -150,6 +150,7 @@ function refreshStreamListeners() {
             STORAGE_MANAGER.setPosts(posts);
             let commentSection = root.find(".reddit-post__comments");
             commentSection.html(VIEW_MANAGER.renderComments(post.getComments()));
+            root.find(".reddit-post__comment-message-input").val("");
             showSuccess("New Comment added successfully!");
         } else {
             showError("Couldn't retrieve Post!");
@@ -238,6 +239,9 @@ $(document).ready(function () {
                 $(".reddit-stream").prepend(VIEW_MANAGER.renderPost(newPost));
                 refreshStreamListeners();
             }
+            $("#newPostTitle").val("");
+            $("#newPostImageUrl").val("");
+            $("#newPostMessage").val("");
             showSuccess("New Post created successfully!");
         } catch (ex) {
             showError("Something went wrong during post creation!");
@@ -250,6 +254,8 @@ $(document).ready(function () {
             let newUser = new USER(readUserValues.username, readUserValues.password);
             STORAGE_MANAGER.addUser(newUser);
             refreshUsersDropdown();
+            $("#username").val("");
+            $("#password").val("");
             showSuccess(`New User "${newUser.getUsername()}" added!`);
         } catch (ex) {
             showError(ex);
@@ -279,6 +285,7 @@ $(document).ready(function () {
                 STORAGE_MANAGER.addTopic(newTopic);
                 refreshTopicsList();
                 refreshTopicDropdown();
+                $("#newTopic").val("");
                 showSuccess("New Topic created successfully!");
             } else {
                 showError("No Topic name entered!");
@@ -286,5 +293,32 @@ $(document).ready(function () {
         } catch (ex) {
             showError(ex);
         }
+    });
+
+    $("#autoFillNewPostBtn").click(function () {
+        let randomContent = AUTOFILL_MANAGER[Math.floor(Math.random() * AUTOFILL_MANAGER.length)];
+        let header = "Header";
+        let image = "https://cdn.mos.cms.futurecdn.net/Jcxu2eRWDRQiA8BV9cScjb.jpg";
+        let message = "Buffalo laborum dolore picanha kevin.  Ut ball tip shoulder est.  " +
+            "Lorem flank pariatur enim, turkey officia doner spare ribs in reprehenderit fugiat.  " +
+            "Nostrud commodo venison excepteur dolore cupidatat turducken aute proident veniam eu.  " +
+            "Venison cow irure, sausage chuck brisket strip steak ut nulla tenderloin adipisicing kevin.  " +
+            "Deserunt ut boudin alcatra tri-tip.";
+        if (randomContent) {
+            header = randomContent.header;
+            image = randomContent.image;
+            message = randomContent.message;
+        }
+        $("#newPostTitle").val(header);
+        $("#newPostImageUrl").val(image);
+        $("#newPostMessage").val(message);
+
+        let topics = $("#newPostCategory");
+        topics.prop('selectedIndex', Math.floor(Math.random() * topics.find("option").length));
+    });
+
+    $("#clearStorageBtn").click(function(){
+        STORAGE_MANAGER.clearStorage();
+        location.reload();
     });
 });
