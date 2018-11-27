@@ -73,8 +73,6 @@
             if(isHidden){
                 comments = [];
             }
-            console.log(isHidden);
-            console.log(comments);
             for (let comment of comments) {
                 renderedComments += _renderComment(comment);
             }

@@ -33,17 +33,20 @@
             </div>
         </div>
         <hr>
-        <div class="new-post">
-            <label for="newPostTitle" class="new-post__title-label">Title</label>
-            <input id="newPostTitle" class="new-post__title-input"type="text" placeholder="Your Post Title..."/>
-            <label for="newPostImageUrl" class="new-post__image-label">Image URL</label>
-            <input id="newPostImageUrl" class="new-post__image-input" type="text" placeholder="Some Online URL here..."/>
-            <select id="newPostCategory" class="new-post__category-input">
-            </select>
-            <label for="newPostMessage" class="new-post__message-label">Message</label>
-            <textarea id="newPostMessage" class="new-post__message-input" placeholder="Your message here..."></textarea>
-            <button id="newPostBtn" class="new-post__post-btn btn btn--primary">New Post</button>
-        </div>
+        <details>
+            <summary>Add New Post...</summary>
+            <div class="new-post">
+                <label for="newPostTitle" class="new-post__title-label">Title</label>
+                <input id="newPostTitle" class="new-post__title-input"type="text" placeholder="Your Post Title..."/>
+                <label for="newPostImageUrl" class="new-post__image-label">Image URL</label>
+                <input id="newPostImageUrl" class="new-post__image-input" type="text" placeholder="Some Online URL here..."/>
+                <select id="newPostCategory" class="new-post__category-input">
+                </select>
+                <label for="newPostMessage" class="new-post__message-label">Message</label>
+                <textarea id="newPostMessage" class="new-post__message-input" placeholder="Your message here..."></textarea>
+                <button id="newPostBtn" class="new-post__post-btn btn btn--primary">New Post</button>
+            </div>
+        </details>
         <div id="redditStream" class="reddit-stream">
         </div>
     </div>
