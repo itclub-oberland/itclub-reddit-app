@@ -125,6 +125,36 @@ select {
     justify-content: center;
 }
 
+.message{
+    opacity:0;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:50px;
+    background-color:grey;
+    box-shadow:0 0 20px rgba(0,0,0,0.25);
+    text-align:center;
+    line-height:50px;
+    font-weight:bold;
+    z-index:2;
+}
+
+.message--success{
+    background-color:green;
+    color:white;
+    opacity:100;
+    transition:2s opacity;
+}
+
+
+.message--failure{
+    background-color:red;
+    color:white;
+    opacity:100;
+    transition:2s opacity;
+}
+
 .nav {
     position: fixed;
     display: flex;
@@ -282,17 +312,29 @@ select {
 .reddit-post__comment {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
     margin: 0.5rem 0;
-    max-width: 400px;
+    flex-basis:100%;
 }
 
 .reddit-post__comments > h3 {
     margin: 0.5rem auto;
+    flex-basis:100%;
 }
 
 .reddit-post__comment > p {
     margin-top: 0.5rem;
+    flex-basis:100%;
+    word-break:break-all;
+}
+
+.reddit-post__comment-section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis:100%;
+    margin: 0.5rem 0;
+    max-width: 400px;
 }
 
 .reddit-post__content-body {

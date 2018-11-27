@@ -32,6 +32,7 @@
                     for (let downVotingUser of parsedJson.downVotes) {
                         post.addDownVote(transform(downVotingUser));
                     }
+                    post.setId(parsedJson.id);
                     return post;
                 }
             }
@@ -47,8 +48,14 @@
             if (user instanceof USER) {
                 if (localStorage.getItem(KEYS.USERS_KEY) !== null) {
                     let users = this.getUsers();
-                    users.push(user);
-                    localStorage.setItem(KEYS.USERS_KEY, JSON.stringify(users));
+                    if (!users.find((aUser) => {
+                        return aUser.getUsername() === user.getUsername();
+                    })) {
+                        users.push(user);
+                        localStorage.setItem(KEYS.USERS_KEY, JSON.stringify(users));
+                    }else{
+                        throw "User already exists!";
+                    }
                 } else {
                     localStorage.setItem(KEYS.USERS_KEY, JSON.stringify([user]));
                 }
@@ -84,8 +91,14 @@
             if (topic instanceof TOPIC) {
                 if (localStorage.getItem(KEYS.TOPICS_KEY) !== null) {
                     let topics = this.getTopics();
-                    topics.push(topic);
-                    localStorage.setItem(KEYS.TOPICS_KEY, JSON.stringify(topics));
+                    if(!topics.find((aTopic)=>{
+                        return aTopic.getName() === topic.getName();
+                    })){
+                        topics.push(topic);
+                        localStorage.setItem(KEYS.TOPICS_KEY, JSON.stringify(topics));
+                    }else{
+                        throw "Topic already exists!";
+                    }
                 } else {
                     localStorage.setItem(KEYS.TOPICS_KEY, JSON.stringify([topic]));
                 }
@@ -154,6 +167,13 @@
                 transformedPosts.push(transform(post));
             }
             return transformedPosts;
+        };
+
+        this.setPosts = function (posts) {
+            posts = posts.filter((aPost) => {
+                return aPost instanceof POST;
+            });
+            localStorage.setItem(KEYS.POSTS_KEY, JSON.stringify(posts));
         };
 
         this.setActiveUser = function (user) {
@@ -299,6 +319,9 @@
             return [];
         };
 
+        this.setPosts = function (posts) {
+            //TODO: Remote logic
+        };
 
         this.clearUsers = function () {
             //TODO: Remote logic
@@ -384,6 +407,9 @@
             return _activeStrategy.getPosts();
         };
 
+        this.setPosts = function (posts) {
+            _activeStrategy.setPosts(posts);
+        };
 
         this.clearUsers = function () {
             _activeStrategy.clearUsers();

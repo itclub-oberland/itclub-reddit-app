@@ -107,6 +107,7 @@
         if (!(this instanceof Post)) {
             return new Post(topic, owner, title, image, message);
         }
+        let _id = Date.now(); // Enough for exercise purposes
         let _topic = topic instanceof Topic ? topic : new Topic(topic + "");
         let _owner = owner instanceof User ? owner : new User(owner + "");
         let _title = title || "";
@@ -157,54 +158,79 @@
         this.addComment = function (comment) {
             if (comment instanceof Comment) {
                 _comments.push(comment);
+            } else {
+                throw "Parameter needs to be of type 'Comment'";
             }
-            throw "Parameter needs to be of type 'Comment'";
+        };
+
+        this.getComments = function(){
+          return _comments;
         };
 
         this.addUpVote = function (user) {
             if (user instanceof User) {
-                this.removeDownVote(user);
-                if (!_upVotes.find((username) => username === user.getUsername())) {
-                    _upVotes.push(user.getUsername());
+                if (!this.removeDownVote(user)) {
+                    if (!_upVotes.find((aUser) => aUser.getUsername() === user.getUsername())) {
+                        _upVotes.push(user);
+                    }
                 }
+            } else {
+                throw "Parameter needs to be of type 'User'";
             }
-            throw "Parameter needs to be of type 'User'";
         };
 
         this.removeUpVote = function (user) {
             if (user instanceof User) {
-                _upVotes = _upVotes.filter((username) => {
-                    return user.getUsername() !== username;
+                let _upVotesCountBefore = _upVotes.length;
+                _upVotes = _upVotes.filter((aUser) => {
+                    return user.getUsername() !== aUser.getUsername();
                 });
+                return _upVotesCountBefore > _upVotes.length;
+            } else {
+                throw "Parameter needs to be of type 'User'";
             }
-            throw "Parameter needs to be of type 'User'";
         };
 
         this.addDownVote = function (user) {
             if (user instanceof User) {
-                this.removeUpVote(user);
-                if (!_downVotes.find((username) => username === user.getUsername())) {
-                    _downVotes.push(user.getUsername());
+                if (!this.removeUpVote(user)) {
+                    if (!_downVotes.find((aUser) => aUser.getUsername() === user.getUsername())) {
+                        _downVotes.push(user);
+                    }
                 }
+            } else {
+                throw "Parameter needs to be of type 'User'";
             }
-            throw "Parameter needs to be of type 'User'";
         };
 
         this.removeDownVote = function (user) {
             if (user instanceof User) {
-                _downVotes = _downVotes.filter((username) => {
-                    return user.getUsername() !== username;
+                let downVotesCountBefore = _downVotes.length;
+                _downVotes = _downVotes.filter((aUser) => {
+                    return user.getUsername() !== aUser.getUsername();
                 });
+                return downVotesCountBefore > _downVotes.length;
+            } else {
+                throw "Parameter needs to be of type 'User'";
             }
-            throw "Parameter needs to be of type 'User'";
         };
 
         this.getVoteCount = function () {
             return _upVotes.length - _downVotes.length;
         };
 
+        this.getId = function () {
+            return _id;
+        };
+
+        this.setId = function (newId) {
+            _id = newId;
+        };
+
         this.toString = function () {
-            return `Topic: ${_topic}, 
+            return `
+          Id: ${_id}
+          Topic: ${_topic}, 
           Owner:${_owner},
           Image URL: ${_image},
           Title:${_title},
@@ -216,6 +242,7 @@
 
         this.toJSON = function () {
             return {
+                id: _id,
                 topic: _topic,
                 owner: _owner,
                 title: _title,

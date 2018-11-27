@@ -22,9 +22,9 @@
                        `;
         };
 
-        let _renderPost = function (post) {
+        this.renderPost = function (post) {
             let top = `
-            <div class="reddit-post">
+            <div class="reddit-post" id="${post.getId()}">
                 <div class="reddit-post__main">
                     <div class="arrows">
                         <button class="arrows__arrow arrows__arrow--up js-vote-up-btn"></button>
@@ -61,25 +61,31 @@
                     </div>
                 </div>
                 <div class="reddit-post__comments">
-                    <h3>Comments</h3>
+                    <h3>Comments (${post.getComments().length})</h3>
                 </div>
             </div>
             `;
             return top + middle + bottom;
         };
 
-        this.renderComments = function (comments) {
-            let renderedComments = "";
+        this.renderComments = function (comments, isHidden) {
+            let renderedComments = `<h3>Comments (${comments.length})</h3><div class="reddit-post__comment-section">`;
+            if(isHidden){
+                comments = [];
+            }
+            console.log(isHidden);
+            console.log(comments);
             for (let comment of comments) {
                 renderedComments += _renderComment(comment);
             }
+            renderedComments += `</div>`;
             return renderedComments;
         };
 
         this.renderPosts = function (posts) {
             let renderedPosts = "";
             for (let post of posts) {
-                renderedPosts += _renderPost(post);
+                renderedPosts = this.renderPost(post) + renderedPosts;
             }
             return renderedPosts;
         };
