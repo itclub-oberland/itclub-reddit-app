@@ -15,6 +15,8 @@
      * */
     window.RedditApp = window.RedditApp || {};
 
+    let BASE_URI = "http://localhost:3000";
+
     /**
      * Transforms JSON Objects to Function Objects
      * via the __type Attribute. This is a private
@@ -394,9 +396,26 @@
             return new RemoteStorageStrategy();
         }
 
+        /**
+         * Adds a User to remote repository
+         * @function Storage.RemoteStorageStrategy#addUser
+         * @param {Model.User} user - New User to be added
+         * */
         this.addUser = function (user) {
             if (user instanceof USER) {
-                //TODO: Remote logic
+                $.ajax(
+                    {
+                        method: "POST",
+                        url: `${BASE_URI}/users`,
+                        data: user.toJSON(),
+                        success: (data) => {
+                            let newUser = transform(data);
+                            NOTIFICATION_MANAGER.showSuccess(`New User "${newUser.getUsername()}" added!`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'user' needs to be of Model type User";
             }
@@ -404,20 +423,61 @@
 
         this.removeUser = function (user) {
             if (user instanceof USER) {
-                //TODO: Remote logic
+                $.ajax(
+                    {
+                        url: `${BASE_URI}/users/${user.getUsername()}`,
+                        method: "DELETE",
+                        success: (data) => {
+                            NOTIFICATION_MANAGER.showSuccess(`User "${user.getUsername()} successfully removed!"`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'user' needs to be of Model type User";
             }
         };
 
-        this.getUsers = function () {
-            //TODO: Remote logic
-            return [];
+        this.getUsers = function (callback) {
+            $.ajax(
+                {
+                    url: `${BASE_URI}/users`,
+                    method: "GET",
+                    success: (data) => {
+                        if (data) {
+                            let users = [];
+                            for (let userJson of data) {
+                                users.push(transform(userJson));
+                            }
+                            callback(users);
+                        } else {
+                            NOTIFICATION_MANAGER.showError("No users found!");
+                            callback([]);
+                        }
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        callback([]);
+                    }
+                });
         };
 
         this.addTopic = function (topic) {
             if (topic instanceof TOPIC) {
-                //TODO: Remote logic
+                $.ajax(
+                    {
+                        method: "POST",
+                        url: `${BASE_URI}/topics`,
+                        data: topic.toJSON(),
+                        success: (data) => {
+                            let newTopic = transform(data);
+                            NOTIFICATION_MANAGER.showSuccess(`New Topic "${newTopic.getName()}" added!`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'topic' needs to be of Model type Topic";
             }
@@ -425,20 +485,61 @@
 
         this.removeTopic = function (topic) {
             if (topic instanceof TOPIC) {
-                //TODO: Remote logic
+                $.ajax(
+                    {
+                        url: `${BASE_URI}/topics/${topic.getName()}`,
+                        method: "DELETE",
+                        success: (data) => {
+                            NOTIFICATION_MANAGER.showSuccess(`Topic "${topic.getName()} successfully removed!"`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'topic' needs to be of Model type Topic";
             }
         };
 
-        this.getTopics = function () {
-            //TODO: Remote logic
-            return [];
+        this.getTopics = function (callback) {
+            $.ajax(
+                {
+                    url: `${BASE_URI}/topics`,
+                    method: "GET",
+                    success: (data) => {
+                        if (data) {
+                            let topics = [];
+                            for (let topicJson of data) {
+                                topics.push(transform(topicJson));
+                            }
+                            callback(topics);
+                        } else {
+                            NOTIFICATION_MANAGER.showError("No topics found!");
+                            callback([]);
+                        }
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        callback([]);
+                    }
+                });
         };
 
         this.addPost = function (post) {
             if (post instanceof POST) {
-                //TODO: Remote logic
+                $.ajax(
+                    {
+                        method: "POST",
+                        url: `${BASE_URI}/posts`,
+                        data: post.toJSON(),
+                        success: (data) => {
+                            let newPost = transform(data);
+                            NOTIFICATION_MANAGER.showSuccess(`New Post with ID "${newPost.getId()}" added!`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'post' needs to be of Model type Post";
             }
@@ -446,7 +547,17 @@
 
         this.removePost = function (post) {
             if (post instanceof POST) {
-                //TODO: Remote logic
+                $.ajax(
+                    {
+                        url: `${BASE_URI}/posts/${post.getId()}`,
+                        method: "DELETE",
+                        success: (data) => {
+                            NOTIFICATION_MANAGER.showSuccess(`Post with ID: "${post.getId()} successfully removed!"`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'post' needs to be of Model type Post";
             }
@@ -454,61 +565,211 @@
 
         this.setActiveUser = function (user) {
             if (user instanceof USER) {
-                //TODO: Remote Logic
+                $.ajax(
+                    {
+                        method: "PUT",
+                        url: `${BASE_URI}/activeUser`,
+                        data: user.toJSON(),
+                        success: (data) => {
+                            let activeUser = transform(data);
+                            NOTIFICATION_MANAGER.showSuccess(`User "${activeUser.getUsername()}" is now the active User!`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
                 throw "Parameter 'user' needs to be of Model type User";
             }
         };
 
-        this.getActiveUser = function () {
-            //TODO: Remote Logic
-            return new USER();
+        this.getActiveUser = function (callback) {
+            $.ajax(
+                {
+                    url: `${BASE_URI}/activeUser`,
+                    method: "GET",
+                    success: (data) => {
+                        if (data) {
+                            let activeUser = transform(data);
+                            callback(activeUser);
+                        } else {
+                            NOTIFICATION_MANAGER.showError("No active user found!");
+                            callback(DEFAULT_USER);
+                        }
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        callback(DEFAULT_USER);
+                    }
+                });
         };
 
         this.setActiveTopic = function (topic) {
             if (topic instanceof TOPIC) {
-                //TODO: Remote Logic
+                $.ajax(
+                    {
+                        method: "PUT",
+                        url: `${BASE_URI}/activeTopic`,
+                        data: topic.toJSON(),
+                        success: (data) => {
+                            let activeTopic = transform(data);
+                            NOTIFICATION_MANAGER.showSuccess(`Topic "${activeTopic.getName()}" is now the active Topic!`);
+                        },
+                        error: (err) => {
+                            NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        }
+                    });
             } else {
-                throw "Parameter 'user' needs to be of Model type User";
+                throw "Parameter 'topic' needs to be of Model type Topic";
             }
         };
 
-        this.getActiveTopic = function () {
-            //TODO: Remote Logic
-            return new TOPIC("Default");
+        this.getActiveTopic = function (callback) {
+            $.ajax(
+                {
+                    url: `${BASE_URI}/activeTopic`,
+                    method: "GET",
+                    success: (data) => {
+                        if (data) {
+                            let activeTopic = transform(data);
+                            callback(activeTopic);
+                        } else {
+                            NOTIFICATION_MANAGER.showError("No active topic found!");
+                            callback(DEFAULT_TOPIC);
+                        }
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        callback(DEFAULT_TOPIC);
+                    }
+                });
         };
 
-        this.getPosts = function () {
-            //TODO: Remote logic
-            return [];
+        this.getPosts = function (callback) {
+            $.ajax(
+                {
+                    url: `${BASE_URI}/posts`,
+                    method: "GET",
+                    success: (data) => {
+                        if (data) {
+                            let posts = [];
+                            for (let postJson of data) {
+                                posts.push(transform(postJson));
+                            }
+                            callback(posts);
+                        } else {
+                            NOTIFICATION_MANAGER.showError("No posts found!");
+                            callback([]);
+                        }
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        callback([]);
+                    }
+                });
         };
 
         this.setPosts = function (posts) {
-            //TODO: Remote logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}/posts`,
+                    method: "PUT",
+                    data: JSON.stringify(posts),
+                    success: (data) => {
+                        if (data) {
+                            NOTIFICATION_MANAGER.showSuccess("Updating posts successfully!");
+                        } else {
+                            NOTIFICATION_MANAGER.showError("Updating posts failed!");
+                        }
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         };
 
         this.clearUsers = function () {
-            //TODO: Remote logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}/users`,
+                    method: "DELETE",
+                    success: (data) => {
+                        NOTIFICATION_MANAGER.showSuccess(data.message);
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         };
 
         this.clearTopics = function () {
-            //TODO: Remote logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}/topics`,
+                    method: "DELETE",
+                    success: (data) => {
+                        NOTIFICATION_MANAGER.showSuccess(data.message);
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         };
 
         this.clearPosts = function () {
-            //TODO: Remote logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}/posts`,
+                    method: "DELETE",
+                    success: (data) => {
+                        NOTIFICATION_MANAGER.showSuccess(data.message);
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         };
 
         this.clearActiveUser = function () {
-            //TODO: Remote logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}/activeUser`,
+                    method: "DELETE",
+                    success: (data) => {
+                        NOTIFICATION_MANAGER.showSuccess(data.message);
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         };
 
         this.clearActiveTopic = function () {
-            //TODO: Remote Logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}/activeTopic`,
+                    method: "DELETE",
+                    success: (data) => {
+                        NOTIFICATION_MANAGER.showSuccess(data.message);
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         };
 
         this.clearStorage = function () {
-            //TODO: Remote logic
+            $.ajax(
+                {
+                    url: `${BASE_URI}`,
+                    method: "DELETE",
+                    success: (data) => {
+                        NOTIFICATION_MANAGER.showSuccess(data.message);
+                    },
+                    error: (err) => {
+                        NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                    }
+                });
         }
     }
 
@@ -545,8 +806,8 @@
             _activeStrategy.removeUser(user);
         };
 
-        this.getUsers = function () {
-            return _activeStrategy.getUsers();
+        this.getUsers = function (callback) {
+            return _activeStrategy.getUsers(callback);
         };
 
         this.addTopic = function (topic) {
@@ -557,8 +818,8 @@
             _activeStrategy.removeTopic(topic);
         };
 
-        this.getTopics = function () {
-            return _activeStrategy.getTopics();
+        this.getTopics = function (callback) {
+            return _activeStrategy.getTopics(callback);
         };
 
         this.addPost = function (post) {
@@ -573,20 +834,20 @@
             _activeStrategy.setActiveUser(user);
         };
 
-        this.getActiveUser = function () {
-            return _activeStrategy.getActiveUser();
+        this.getActiveUser = function (callback) {
+            return _activeStrategy.getActiveUser(callback);
         };
 
         this.setActiveTopic = function (topic) {
             _activeStrategy.setActiveTopic(topic);
         };
 
-        this.getActiveTopic = function () {
-            return _activeStrategy.getActiveTopic();
+        this.getActiveTopic = function (callback) {
+            return _activeStrategy.getActiveTopic(callback);
         };
 
-        this.getPosts = function () {
-            return _activeStrategy.getPosts();
+        this.getPosts = function (callback) {
+            return _activeStrategy.getPosts(callback);
         };
 
         this.setPosts = function (posts) {
