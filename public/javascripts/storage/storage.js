@@ -17,7 +17,7 @@
     let LocalStorageStrategy = window.RedditApp._TO_BE_REMOVED.LocalStorageStrategy;
     let RemoteStorageStrategy = window.RedditApp._TO_BE_REMOVED.RemoteStorageStrategy;
 
-    let BASE_URI = "http://localhost:3000";
+    let BASE_URI = "https://itclub-reddit-server.herokuapp.com"; //"http://localhost:3000";
 
     /**
      * A storage interface for persisting data. Uses
