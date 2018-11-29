@@ -1,17 +1,19 @@
-function setupDefaults() {
+function setupDefaults(callback) {
     STORAGE_MANAGER.getActiveUser((activeUser) => {
         if (!activeUser) {
             let defaultUser = new USER("Zmotey", "123");
-            STORAGE_MANAGER.setActiveUser(defaultUser);
             STORAGE_MANAGER.addUser(defaultUser);
+            STORAGE_MANAGER.setActiveUser(defaultUser);
         }
-    });
-    STORAGE_MANAGER.getTopics((topics) => {
-        if (!topics.length) {
-            let defaultTopic = new TOPIC(DEFAULT_TOPIC_NAME);
-            STORAGE_MANAGER.setActiveTopic(defaultTopic);
-            STORAGE_MANAGER.addTopic(defaultTopic);
-        }
+        STORAGE_MANAGER.getTopics((topics) => {
+            if (!topics.length) {
+                let defaultTopic = new TOPIC(DEFAULT_TOPIC_NAME);
+                STORAGE_MANAGER.addTopic(defaultTopic);
+                STORAGE_MANAGER.setActiveTopic(defaultTopic, callback);
+            }else{
+                if(callback) callback();
+            }
+        });
     });
 }
 
@@ -42,7 +44,7 @@ function getNewUserValues() {
     }
 }
 
-function refreshUsersDropdown() {
+function refreshUsersDropdown(callback) {
     let usersDropdown = $("#usersDropdown");
     usersDropdown.empty();
     STORAGE_MANAGER.getUsers((users) => {
@@ -52,37 +54,54 @@ function refreshUsersDropdown() {
                     activeUser,
                     users)
             );
+            if(callback) callback();
         });
     });
 }
 
-function refreshRedditStream(posts) {
-    posts = posts || STORAGE_MANAGER.getPosts();
+function redditStreamRenderAndAppend(posts) {
     $("#redditStream").html(
         VIEW_MANAGER.renderPosts(posts)
     );
 }
 
-function updateRedditStream(topicName) {
-    topicName = topicName || STORAGE_MANAGER.getActiveTopic().getName();
-    STORAGE_MANAGER.getTopics((topics) => {
-        let selectedTopic = topics.find((aTopic) => {
-            return aTopic.getName() === topicName;
-        });
-
+function refreshRedditStream(posts) {
+    if (!posts) {
         STORAGE_MANAGER.getPosts((posts) => {
-            if (selectedTopic) {
-                STORAGE_MANAGER.setActiveTopic(selectedTopic);
-                if (topicName !== DEFAULT_TOPIC_NAME) {
-                    posts = posts.filter((aPost) => {
-                        return aPost.getTopic().getName() === selectedTopic.getName();
-                    });
-                }
-            }
-
-            refreshRedditStream(posts);
+            redditStreamRenderAndAppend(posts);
             refreshStreamListeners();
-        });
+        })
+    } else {
+        redditStreamRenderAndAppend(posts);
+        refreshStreamListeners();
+    }
+}
+
+function filterPosts(selectedTopic) {
+    STORAGE_MANAGER.getPosts((posts) => {
+        if (selectedTopic.getName() !== DEFAULT_TOPIC_NAME) {
+            posts = posts.filter((aPost) => {
+                return aPost.getTopic().getName() === selectedTopic.getName();
+            });
+        }
+        refreshRedditStream(posts);
+    });
+}
+
+function updateRedditStream(topicName, callback) {
+    STORAGE_MANAGER.getTopics((topics) => {
+        let selectedTopic = topics.find((aTopic) => aTopic.getName() === topicName);
+        if (!selectedTopic) {
+            STORAGE_MANAGER.getActiveTopic((activeTopic) => {
+                filterPosts(activeTopic);
+                if(callback) callback();
+            });
+        } else {
+            STORAGE_MANAGER.setActiveTopic(selectedTopic, () => {
+                filterPosts(selectedTopic);
+                if(callback) callback();
+            });
+        }
     });
 }
 
@@ -105,36 +124,40 @@ function refreshStreamListeners() {
     }
 
     function votingTemplate(event, callback) {
-        let root = findRoot(event);
-        let posts = STORAGE_MANAGER.getPosts();
-        let post = findPost(root, posts);
-        if (post) {
-            callback(post);
-            STORAGE_MANAGER.setPosts(posts);
-            root.find(".js-vote-count-text").html(post.getVoteCount());
-        }
+        STORAGE_MANAGER.getPosts((posts) => {
+            let root = findRoot(event);
+            let post = findPost(root, posts);
+            if (post) {
+                callback(post, () => {
+                    STORAGE_MANAGER.setPosts(posts);
+                    root.find(".js-vote-count-text").html(post.getVoteCount());
+                });
+            }
+        });
     }
 
     $(".js-vote-up-btn").click(function (event) {
-        votingTemplate(event, (post) => {
+        votingTemplate(event, (post, callback) => {
             STORAGE_MANAGER.getActiveUser((activeUser) => {
-                post.addUpVote(activeUser)
+                post.addUpVote(activeUser);
+                if(callback) callback();
             });
         })
     });
 
     $(".js-vote-down-btn").click(function (event) {
-        votingTemplate(event, (post) => {
+        votingTemplate(event, (post, callback) => {
             STORAGE_MANAGER.getActiveUser((activeUser) => {
-                post.addDownVote(activeUser)
+                post.addDownVote(activeUser);
+                if(callback) callback();
             });
         });
     });
 
     $(".js-comment-btn").click(function (event) {
-        let root = findRoot(event);
-        let commentInputValue = root.find(".reddit-post__comment-message-input").val();
         STORAGE_MANAGER.getPosts((posts) => {
+            let root = findRoot(event);
+            let commentInputValue = root.find(".reddit-post__comment-message-input").val();
             let post = findPost(root, posts);
             if (post) {
                 try {
@@ -156,11 +179,12 @@ function refreshStreamListeners() {
     });
 
     function showComments(event) {
-        let root = findRoot(event);
-        let posts = STORAGE_MANAGER.getPosts();
-        let post = findPost(root, posts);
-        let commentSection = root.find(".reddit-post__comments");
-        commentSection.html(VIEW_MANAGER.renderComments(post.getComments(), false));
+        STORAGE_MANAGER.getPosts((posts) => {
+            let root = findRoot(event);
+            let post = findPost(root, posts);
+            let commentSection = root.find(".reddit-post__comments");
+            commentSection.html(VIEW_MANAGER.renderComments(post.getComments(), false));
+        });
     }
 
     $(".js-show-comments").click(function (event) {
@@ -168,11 +192,12 @@ function refreshStreamListeners() {
     });
 
     function hideComments(event) {
-        let root = findRoot(event);
-        let posts = STORAGE_MANAGER.getPosts();
-        let post = findPost(root, posts);
-        let commentSection = root.find(".reddit-post__comments");
-        commentSection.html(VIEW_MANAGER.renderComments(post.getComments(), true));
+        STORAGE_MANAGER.getPosts((posts) => {
+            let root = findRoot(event);
+            let post = findPost(root, posts);
+            let commentSection = root.find(".reddit-post__comments");
+            commentSection.html(VIEW_MANAGER.renderComments(post.getComments(), true));
+        });
     }
 
     $(".js-hide-comments").click(function (event) {
@@ -183,71 +208,78 @@ function refreshStreamListeners() {
 function updateTopicListeners() {
     $(".js-topic-btn").click(function (event) {
         let selectedTopicName = $(event.target).html();
-        updateRedditStream(selectedTopicName);
-        refreshTopicsList();
+        updateRedditStream(selectedTopicName, () => {
+            refreshTopicsList();
+        });
     })
 }
 
-function refreshTopicsList() {
-    let newTopicSection = $("#newTopicSection");
-    let topicsList = newTopicSection.parent().find(".topics__list");
-    if (topicsList) {
-        topicsList.remove();
-    }
+function refreshTopicsList(callback) {
     STORAGE_MANAGER.getActiveTopic((activeTopic) => {
         STORAGE_MANAGER.getTopics((topics) => {
+            let newTopicSection = $("#newTopicSection");
+            let topicsList = newTopicSection.parent().find(".topics__list");
+            if (topicsList) {
+                topicsList.remove();
+            }
             newTopicSection.before(VIEW_MANAGER.renderTopicsList(activeTopic, topics));
             updateTopicListeners();
+            if (callback) callback();
         });
     });
 }
 
-function refreshTopicDropdown() {
+function refreshTopicDropdown(callback) {
     let newPostCategory = $("#newPostCategory");
     newPostCategory.empty();
     STORAGE_MANAGER.getTopics((topics) => {
         newPostCategory.append(VIEW_MANAGER.renderTopicDropdown(topics));
+        if (callback) callback();
     });
 }
 
 function init() {
-    // STORAGE_MANAGER.clearStorage();
-    setupDefaults();
-    refreshUsersDropdown();
-    refreshTopicsList();
-    refreshTopicDropdown();
-    STORAGE_MANAGER.getActiveTopic((activeTopic)=>{
-        updateRedditStream(activeTopic.getName());
+    setupDefaults(() => {
+        refreshUsersDropdown(() => {
+            refreshTopicsList(() => {
+                refreshTopicDropdown(() => {
+                    updateRedditStream();
+                    NOTIFICATION_MANAGER.showInfo("App initialized");
+                });
+            })
+        });
     });
 }
 
 /**
  * Listeners to be defined once DOM has loaded
  * */
-$(document).ready(function () {
+function setup() {
     init();
 
     $("#newPostBtn").click(function () {
         try {
             let readNewPostValues = getNewPostValues();
-            let newPost = new POST(
-                new TOPIC(readNewPostValues.newPostTopic),
-                STORAGE_MANAGER.getActiveUser(),
-                readNewPostValues.newPostTitle,
-                readNewPostValues.newPostImageUrl,
-                readNewPostValues.newPostMessage
-            );
-            STORAGE_MANAGER.addPost(newPost);
-            let activeTopic = STORAGE_MANAGER.getActiveTopic().getName();
-            if (newPost.getTopic().getName() === activeTopic
-                || activeTopic === DEFAULT_TOPIC_NAME) {
-                $(".reddit-stream").prepend(VIEW_MANAGER.renderPost(newPost));
-                refreshStreamListeners();
-            }
-            $("#newPostTitle").val("");
-            $("#newPostImageUrl").val("");
-            $("#newPostMessage").val("");
-            NOTIFICATION_MANAGER.showSuccess("New Post created successfully!");
+            STORAGE_MANAGER.getActiveUser((activeUser) => {
+                let newPost = new POST(
+                    new TOPIC(readNewPostValues.newPostTopic),
+                    activeUser,
+                    readNewPostValues.newPostTitle,
+                    readNewPostValues.newPostImageUrl,
+                    readNewPostValues.newPostMessage
+                );
+                STORAGE_MANAGER.addPost(newPost);
+                STORAGE_MANAGER.getActiveTopic((activeTopic) => {
+                    if (newPost.getTopic().getName() === activeTopic.getName()
+                        || activeTopic.getName() === DEFAULT_TOPIC_NAME) {
+                        $(".reddit-stream").prepend(VIEW_MANAGER.renderPost(newPost));
+                        refreshStreamListeners();
+                    }
+                    $("#newPostTitle").val("");
+                    $("#newPostImageUrl").val("");
+                    $("#newPostMessage").val("");
+                });
+            });
         } catch (ex) {
             NOTIFICATION_MANAGER.showError("Something went wrong during post creation!");
         }
@@ -275,7 +307,6 @@ $(document).ready(function () {
                 });
                 STORAGE_MANAGER.setActiveUser(activeUser);
                 refreshUsersDropdown();
-                NOTIFICATION_MANAGER.showSuccess(`Active User changed to "${activeUser.getUsername()}"!`);
             });
         } catch (ex) {
             NOTIFICATION_MANAGER.showError("Something went wrong during Active User change!");
@@ -291,7 +322,6 @@ $(document).ready(function () {
                 refreshTopicsList();
                 refreshTopicDropdown();
                 $("#newTopic").val("");
-                NOTIFICATION_MANAGER.showSuccess("New Topic created successfully!");
             } else {
                 NOTIFICATION_MANAGER.showError("No Topic name entered!");
             }
@@ -323,7 +353,10 @@ $(document).ready(function () {
     });
 
     $("#clearStorageBtn").click(function () {
-        STORAGE_MANAGER.clearStorage();
-        location.reload();
+        STORAGE_MANAGER.clearStorage(() => {
+            location.reload();
+        });
     });
-});
+}
+
+$(document).ready(setup);

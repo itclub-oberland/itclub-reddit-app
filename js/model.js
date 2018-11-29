@@ -76,7 +76,7 @@
          * */
         this.toJSON = function () {
             return {
-                owner: _owner,
+                owner: _owner.toJSON(),
                 message: _message,
                 __type: TYPES.COMMENT
             }
@@ -324,7 +324,7 @@
             if (comment instanceof Comment) {
                 _comments.push(comment);
             } else {
-                throw "Parameter needs to be of type 'Comment'";
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'Comment'");
             }
         };
 
@@ -348,7 +348,7 @@
                     }
                 }
             } else {
-                throw "Parameter needs to be of type 'User'";
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
             }
         };
 
@@ -364,7 +364,7 @@
                 });
                 return _upVotesCountBefore > _upVotes.length;
             } else {
-                throw "Parameter needs to be of type 'User'";
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
             }
         };
 
@@ -380,7 +380,7 @@
                     }
                 }
             } else {
-                throw "Parameter needs to be of type 'User'";
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
             }
         };
 
@@ -396,7 +396,7 @@
                 });
                 return downVotesCountBefore > _downVotes.length;
             } else {
-                throw "Parameter needs to be of type 'User'";
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
             }
         };
 
@@ -452,9 +452,9 @@
          * */
         this.toJSON = function () {
             return {
-                id: _id,
-                topic: _topic,
-                owner: _owner,
+                _id: _id,
+                topic: _topic.toJSON(),
+                owner: _owner.toJSON(),
                 title: _title,
                 image: _image,
                 message: _message,

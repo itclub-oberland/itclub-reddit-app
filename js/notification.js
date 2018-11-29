@@ -21,6 +21,7 @@
      * @memberOf Notification
      * */
     function NotificationManager() {
+        let messageDelay = 3000;
         /**
          * @function showSuccess
          * @param {string} message - Message for snackbar to show
@@ -32,7 +33,21 @@
             snackbar.append(domMessage);
             setTimeout(() => {
                 snackbar.find(`#${id}`).remove();
-            }, 2000);
+            }, messageDelay);
+        };
+
+        /**
+         * @function showSuccess
+         * @param {string} message - Message for snackbar to show
+         * */
+        this.showInfo = function (message) {
+            let snackbar = $("#snackbar");
+            let id = Date.now();
+            let domMessage = $(`<div id="${id}" class="message message--info">${message}</div>`);
+            snackbar.append(domMessage);
+            setTimeout(() => {
+                snackbar.find(`#${id}`).remove();
+            }, messageDelay);
         };
 
         /**
@@ -46,7 +61,7 @@
             snackbar.append(domMessage);
             setTimeout(() => {
                 snackbar.find(`#${id}`).remove();
-            }, 2000);
+            }, messageDelay);
         }
     }
 

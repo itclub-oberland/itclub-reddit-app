@@ -70,7 +70,7 @@
 
         this.renderComments = function (comments, isHidden) {
             let renderedComments = `<h3>Comments (${comments.length})</h3><div class="reddit-post__comment-section">`;
-            if(isHidden){
+            if (isHidden) {
                 comments = [];
             }
             for (let comment of comments) {
@@ -99,22 +99,27 @@
             return userList;
         };
 
-        this.renderTopicsList = function(activeTopic, topics){
-            let topicsList = `<div class="topics__list">`;
-            for(let topic of topics){
+        this.renderTopicsList = function (activeTopic, topics) {
+            let head = `<div class="topics__list">`;
+            let body = "";
+            topics.sort((a, b) => {
+                return a.getName().toLowerCase() === b.getName().toLowerCase() ? 0 :
+                    (a.getName().toLowerCase() > b.getName().toLowerCase() ? -1 : 1);
+            });
+            for (let topic of topics) {
                 let active = '';
-                if(topic.getName() === activeTopic.getName()){
+                if (topic.getName() === activeTopic.getName()) {
                     active = 'topic-btn--active';
                 }
-                topicsList += `<button class="topic-btn topic-btn--primary ${active} js-topic-btn">${topic.getName()}</button>`;
+                body = `<button class="topic-btn topic-btn--primary ${active} js-topic-btn">${topic.getName()}</button>` + body;
             }
-            topicsList += `</div>`;
-            return topicsList;
+            let tail = `</div>`;
+            return head + body + tail;
         };
 
-        this.renderTopicDropdown = function(topics){
-            let topicsList ="";
-            for(let topic of topics){
+        this.renderTopicDropdown = function (topics) {
+            let topicsList = "";
+            for (let topic of topics) {
                 topicsList += `<option value="${topic.getName()}">${topic.getName()}</option>`;
             }
             return topicsList;

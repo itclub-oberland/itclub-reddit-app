@@ -72,7 +72,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage.js.html">storage.js</a>, <a href="storage.js.html#line1">line 1</a>
+        <a href="storage_strategies_local_storage_strategy.js.html">storage/strategies/local_storage_strategy.js</a>, <a href="storage_strategies_local_storage_strategy.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -173,7 +173,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage.js.html">storage.js</a>, <a href="storage.js.html#line519">line 519</a>
+        <a href="storage_storage.js.html">storage/storage.js</a>, <a href="storage_storage.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -308,7 +308,725 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage.js.html">storage.js</a>, <a href="storage.js.html#line18">line 18</a>
+        <a href="storage_util_helper.js.html">storage/util/helper.js</a>, <a href="storage_util_helper.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a function object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Model.User.html">Model.User</a></span>
+|
+
+<span class="param-type"><a href="Model.Topic.html">Model.Topic</a></span>
+|
+
+<span class="param-type"><a href="Model.Post.html">Model.Post</a></span>
+|
+
+<span class="param-type"><a href="Model.Comment.html">Model.Comment</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>Storage</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">This code intentionally doesn't use OO JavaScriptby not using classes or prototypial inheritance.The purpose of this exercise at this stage is tobe a segue to OO JavaScript</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_storage.js.html">storage/storage.js</a>, <a href="storage_storage.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></dt>
+            <dd></dd>
+        
+            <dt><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".StorageManager"><span class="type-signature">(static) </span>StorageManager<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A storage interface for persisting data. Useseither  <a href="Storage.LocalStorageStrategy.html">Storage.LocalStorageStrategy</a> or <a href="Storage.RemoteStorageStrategy.html">Storage.RemoteStorageStrategy</a> to persist datalocally or remotely. The strategy can be changedvia member function.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_storage.js.html">storage/storage.js</a>, <a href="storage_storage.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".transform"><span class="type-signature">(private, static) </span>transform<span class="signature">(parsedJson)</span><span class="type-signature"> &rarr; {<a href="Model.User.html">Model.User</a>|<a href="Model.Topic.html">Model.Topic</a>|<a href="Model.Post.html">Model.Post</a>|<a href="Model.Comment.html">Model.Comment</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Transforms JSON Objects to Function Objectsvia the __type Attribute. This is a privateHelper function
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parsedJson</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">JavaScript Object parsed from JSON String</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_util_helper.js.html">storage/util/helper.js</a>, <a href="storage_util_helper.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a function object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Model.User.html">Model.User</a></span>
+|
+
+<span class="param-type"><a href="Model.Topic.html">Model.Topic</a></span>
+|
+
+<span class="param-type"><a href="Model.Post.html">Model.Post</a></span>
+|
+
+<span class="param-type"><a href="Model.Comment.html">Model.Comment</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>Storage</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">This code intentionally doesn't use OO JavaScriptby not using classes or prototypial inheritance.The purpose of this exercise at this stage is tobe a segue to OO JavaScript</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_strategies_remote_storage_strategy.js.html">storage/strategies/remote_storage_strategy.js</a>, <a href="storage_strategies_remote_storage_strategy.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></dt>
+            <dd></dd>
+        
+            <dt><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".StorageManager"><span class="type-signature">(static) </span>StorageManager<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A storage interface for persisting data. Useseither  <a href="Storage.LocalStorageStrategy.html">Storage.LocalStorageStrategy</a> or <a href="Storage.RemoteStorageStrategy.html">Storage.RemoteStorageStrategy</a> to persist datalocally or remotely. The strategy can be changedvia member function.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_storage.js.html">storage/storage.js</a>, <a href="storage_storage.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".transform"><span class="type-signature">(private, static) </span>transform<span class="signature">(parsedJson)</span><span class="type-signature"> &rarr; {<a href="Model.User.html">Model.User</a>|<a href="Model.Topic.html">Model.Topic</a>|<a href="Model.Post.html">Model.Post</a>|<a href="Model.Comment.html">Model.Comment</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Transforms JSON Objects to Function Objectsvia the __type Attribute. This is a privateHelper function
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parsedJson</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">JavaScript Object parsed from JSON String</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_util_helper.js.html">storage/util/helper.js</a>, <a href="storage_util_helper.js.html#line3">line 3</a>
     </li></ul></dd>
     
 
@@ -383,13 +1101,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.Comment.html">Comment</a></li><li><a href="Model.Post.html">Post</a></li><li><a href="Model.Topic.html">Topic</a></li><li><a href="Model.User.html">User</a></li><li><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></li><li><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></li></ul><h3>Namespaces</h3><ul><li><a href="Model.html">Model</a></li><li><a href="Storage.html">Storage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccess">showSuccess</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.Comment.html">Comment</a></li><li><a href="Model.Post.html">Post</a></li><li><a href="Model.Topic.html">Topic</a></li><li><a href="Model.User.html">User</a></li><li><a href="Notification.NotificationManager.html">NotificationManager</a></li><li><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></li><li><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></li></ul><h3>Namespaces</h3><ul><li><a href="Model.html">Model</a></li><li><a href="Notification.html">Notification</a></li><li><a href="Storage.html">Storage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#setup">setup</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccess">showSuccess</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 28 2018 00:16:13 GMT+0100 (Mitteleuropäische Zeit)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 30 2018 00:17:50 GMT+0100 (Mitteleuropäische Zeit)
 </footer>
 
 <script> prettyPrint(); </script>

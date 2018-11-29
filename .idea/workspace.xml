@@ -2,14 +2,55 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="228062dc-394c-471d-8a43-38e1fc584cdf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/js/notification.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/storage/strategies/local_storage_strategy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/storage/strategies/remote_storage_strategy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/storage/util/helper.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/reddit.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/reddit.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/autofill.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/autofill.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/constants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/storage.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/storage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/notification.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/notification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/storage.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/storage/storage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/view.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/view.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Model.Comment.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Model.Post.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Model.Topic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Model.User.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Model.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Storage.LocalStorageStrategy.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Storage.RemoteStorageStrategy.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Storage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/controller.js.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Bold-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Bold-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Bold-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-BoldItalic-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-BoldItalic-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-BoldItalic-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Italic-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Italic-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Italic-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Light-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Light-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Light-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-LightItalic-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-LightItalic-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-LightItalic-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Regular-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Regular-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/fonts/OpenSans-Regular-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/global.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model.js.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/scripts/linenumber.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/scripts/prettify/Apache-License-2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/scripts/prettify/lang-css.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/scripts/prettify/prettify.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/storage.js.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/styles/jsdoc-default.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/styles/prettify-jsdoc.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/styles/prettify-tomorrow.css" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,22 +65,23 @@
     <session id="1384276810">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.22" value="1" />
+          <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.5" value="5" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="5" />
           <entry key="gitignore" value="1" />
-          <entry key="html" value="17" />
+          <entry key="html" value="20" />
           <entry key="http" value="1" />
-          <entry key="js" value="35" />
+          <entry key="js" value="41" />
           <entry key="md" value="3" />
           <entry key="ts" value="1" />
         </counts>
@@ -48,29 +90,29 @@
         <counts>
           <entry key="CSS" value="5" />
           <entry key="Git file" value="1" />
-          <entry key="HTML" value="17" />
+          <entry key="HTML" value="20" />
           <entry key="HTTP Request" value="1" />
-          <entry key="JavaScript" value="35" />
+          <entry key="JavaScript" value="41" />
           <entry key="Markdown" value="3" />
           <entry key="TypeScript" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="7225" />
+          <entry key="css" value="7407" />
           <entry key="dummy" value="5" />
           <entry key="gitignore" value="1" />
-          <entry key="html" value="2783" />
-          <entry key="js" value="31325" />
+          <entry key="html" value="2820" />
+          <entry key="js" value="37768" />
           <entry key="md" value="1160" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="7226" />
+          <entry key="CSS" value="7408" />
           <entry key="Git file" value="1" />
-          <entry key="HTML" value="2795" />
-          <entry key="JavaScript" value="31312" />
+          <entry key="HTML" value="2832" />
+          <entry key="JavaScript" value="37755" />
           <entry key="Markdown" value="1160" />
           <entry key="PLAIN_TEXT" value="5" />
         </counts>
@@ -78,30 +120,57 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="59" column="43" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="43" />
+            <state relative-caret-position="456">
+              <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/storage.js">
+        <entry file="file://$PROJECT_DIR$/out/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9012">
-              <caret line="744" column="10" lean-forward="true" selection-start-line="744" selection-start-column="10" selection-end-line="744" selection-end-column="10" />
+            <state relative-caret-position="952">
+              <caret line="56" column="85" selection-start-line="56" selection-start-column="85" selection-end-line="56" selection-end-column="85" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/reddit.css">
+        <entry file="file://$PROJECT_DIR$/js/storage/storage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="158" column="25" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="25" />
+            <state relative-caret-position="654">
+              <caret line="252" column="38" selection-start-line="252" selection-start-column="38" selection-end-line="252" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/storage/util/helper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="674">
+              <caret line="42" column="69" selection-start-line="42" selection-start-column="69" selection-end-line="42" selection-end-column="69" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/storage/strategies/remote_storage_strategy.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="281">
+              <caret line="68" column="102" selection-start-line="68" selection-start-column="90" selection-end-line="68" selection-end-column="102" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/storage/strategies/local_storage_strategy.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -109,26 +178,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="218" column="51" lean-forward="true" selection-start-line="218" selection-start-column="51" selection-end-line="218" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/notification.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/constants.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
+            <state relative-caret-position="58">
+              <caret line="151" column="40" selection-start-line="151" selection-start-column="40" selection-end-line="151" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -136,8 +187,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/autofill.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+            <state relative-caret-position="238">
+              <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/model.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="717">
+              <caret line="398" column="87" selection-start-line="398" selection-start-column="87" selection-end-line="398" selection-end-column="87" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/constants.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="490">
+              <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -155,29 +224,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ACTIVE_USER_KEY</find>
-      <find>&quot;Post&quot;</find>
-      <find>activeUser</find>
-      <find>getTopic</find>
-      <find>.new-topic</find>
-      <find>User</find>
-      <find>topics</find>
-      <find>throw</find>
-      <find>img</find>
-      <find>append</find>
-      <find>post__comment</find>
-      <find>new-post__post</find>
-      <find>reddit-post__header-text</find>
-      <find>new-post</find>
-      <find>btn--primary</find>
-      <find>override</find>
-      <find>@type</find>
-      <find>memberof</find>
-      <find>@memberOf Model</find>
-      <find>getTitle</find>
-      <find>returns</find>
-      <find>Post#</find>
-      <find>{@link Comment}</find>
       <find>@link</find>
       <find>let self</find>
       <find>.message</find>
@@ -185,6 +231,29 @@
       <find>getUsers</find>
       <find>getActiveUser</find>
       <find>getTopics</find>
+      <find>refreshTopic</find>
+      <find>getActiveTopic</find>
+      <find>refreshTopicList</find>
+      <find>refreshTopicsList</find>
+      <find>setActiveTopic</find>
+      <find>.js-topic-btn</find>
+      <find>topics__list</find>
+      <find>init</find>
+      <find>refreshRed</find>
+      <find>refreshRedditStream</find>
+      <find>getPosts</find>
+      <find>POST</find>
+      <find>addPost</find>
+      <find>setPosts</find>
+      <find>toJSON</find>
+      <find>data:</find>
+      <find>success:</find>
+      <find>updateRedditStream</find>
+      <find>callback</find>
+      <find>throw</find>
+      <find>transform</find>
+      <find>successfully</find>
+      <find>success</find>
     </findStrings>
     <replaceStrings>
       <replace>@memberOf Models</replace>
@@ -201,17 +270,24 @@
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/js/libs/jquery-3.3.1.min.js" />
-        <option value="$PROJECT_DIR$/js/view.js" />
-        <option value="$PROJECT_DIR$/js/model.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/test.http" />
         <option value="$PROJECT_DIR$/js/autofill.js" />
-        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/view.js" />
         <option value="$PROJECT_DIR$/css/reddit.css" />
         <option value="$PROJECT_DIR$/js/notification.js" />
+        <option value="$PROJECT_DIR$/js/model.js" />
         <option value="$PROJECT_DIR$/js/controller.js" />
-        <option value="$PROJECT_DIR$/js/constants.js" />
         <option value="$PROJECT_DIR$/js/storage.js" />
+        <option value="$PROJECT_DIR$/js/storage/remote_storage_strategy.js" />
+        <option value="$PROJECT_DIR$/js/storage/local_storage_strategy.js" />
+        <option value="$PROJECT_DIR$/js/storage/util/helper.js" />
+        <option value="$PROJECT_DIR$/js/storage/storage.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/constants.js" />
+        <option value="$PROJECT_DIR$/js/storage/strategies/remote_storage_strategy.js" />
+        <option value="$PROJECT_DIR$/js/storage/strategies/local_storage_strategy.js" />
+        <option value="$PROJECT_DIR$/out/index.html" />
       </list>
     </option>
   </component>
@@ -249,6 +325,24 @@
               <item name="itclub-reddit-app" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="itclub-reddit-app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="itclub-reddit-app" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="itclub-reddit-app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="itclub-reddit-app" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+              <item name="strategies" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="itclub-reddit-app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="itclub-reddit-app" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -266,6 +360,10 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Zmote\Documents\itclub-reddit-app\js\storage\strategies" />
+      <recent name="C:\Users\Zmote\Documents\itclub-reddit-app\js\storage" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Zmote\Documents\itclub-reddit-app\res" />
       <recent name="C:\Users\Zmote\Documents\itclub-reddit-app\js\libs" />
@@ -301,18 +399,19 @@
       <workItem from="1543243726705" duration="25957000" />
       <workItem from="1543322003727" duration="7942000" />
       <workItem from="1543330554216" duration="20700000" />
-      <workItem from="1543414066729" duration="18355000" />
+      <workItem from="1543414066729" duration="18456000" />
+      <workItem from="1543434113243" duration="32710000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="100790000" />
+    <option name="totallyTimeSpent" value="133601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10906217" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14699684" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -324,14 +423,14 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.22234273" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.22234273" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12961012" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10906217" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -372,13 +471,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/out/controller.js.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -394,20 +486,6 @@
         <state relative-caret-position="-255" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/out/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="SPLIT">
@@ -421,52 +499,94 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.http" />
-    <entry file="file://$PROJECT_DIR$/js/autofill.js">
+    <entry file="file://$PROJECT_DIR$/js/view.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+        <state relative-caret-position="341">
+          <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/reddit.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="158" column="25" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="59" column="43" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="43" />
+        <state relative-caret-position="792">
+          <caret line="207" column="37" lean-forward="true" selection-start-line="207" selection-start-column="37" selection-end-line="207" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/notification.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+        <state relative-caret-position="-270">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller.js">
+    <entry file="file://$PROJECT_DIR$/js/model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="218" column="51" lean-forward="true" selection-start-line="218" selection-start-column="51" selection-end-line="218" selection-end-column="51" />
+        <state relative-caret-position="717">
+          <caret line="398" column="87" selection-start-line="398" selection-start-column="87" selection-end-line="398" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/autofill.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/storage/util/helper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="674">
+          <caret line="42" column="69" selection-start-line="42" selection-start-column="69" selection-end-line="42" selection-end-column="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/constants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
+        <state relative-caret-position="490">
+          <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/storage.js">
+    <entry file="file://$PROJECT_DIR$/js/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9012">
-          <caret line="744" column="10" lean-forward="true" selection-start-line="744" selection-start-column="10" selection-end-line="744" selection-end-column="10" />
+        <state relative-caret-position="58">
+          <caret line="151" column="40" selection-start-line="151" selection-start-column="40" selection-end-line="151" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/storage/storage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="654">
+          <caret line="252" column="38" selection-start-line="252" selection-start-column="38" selection-end-line="252" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/storage/strategies/remote_storage_strategy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="68" column="102" selection-start-line="68" selection-start-column="90" selection-end-line="68" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/storage/strategies/local_storage_strategy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="56" column="85" selection-start-line="56" selection-start-column="85" selection-end-line="56" selection-end-column="85" />
         </state>
       </provider>
     </entry>

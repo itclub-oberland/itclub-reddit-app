@@ -29,7 +29,7 @@
             <h2>My Reddit Stream</h2>
             <button id="clearStorageBtn" class="btn btn--warn">Clear Storage</button>
         </div>
-        <div class="topics">
+        <div id="topics" class="topics">
             <div id="newTopicSection" class="new-topic">
                 <input id="newTopic" class="new-topic__input" type="text" placeholder="New Topic..."/>
                 <button id="addNewTopicBtn" class="btn btn--primary">Add Topic</button>
@@ -40,13 +40,15 @@
             <summary class="new-post-summary-title">Add New Post...</summary>
             <div class="new-post">
                 <label for="newPostTitle" class="new-post__title-label">Title</label>
-                <input id="newPostTitle" class="new-post__title-input"type="text" placeholder="Your Post Title..."/>
+                <input id="newPostTitle" class="new-post__title-input" type="text" placeholder="Your Post Title..."/>
                 <label for="newPostImageUrl" class="new-post__image-label">Image URL</label>
-                <input id="newPostImageUrl" class="new-post__image-input" type="text" placeholder="Some Online URL here..."/>
+                <input id="newPostImageUrl" class="new-post__image-input" type="text"
+                       placeholder="Some Online URL here..."/>
                 <select id="newPostCategory" class="new-post__category-input">
                 </select>
                 <label for="newPostMessage" class="new-post__message-label">Message</label>
-                <textarea id="newPostMessage" class="new-post__message-input" placeholder="Your message here..."></textarea>
+                <textarea id="newPostMessage" class="new-post__message-input"
+                          placeholder="Your message here..."></textarea>
                 <div class="new-post__post-btn">
                     <button id="autoFillNewPostBtn" class="btn btn--primary">Autofill</button>
                     <button id="newPostBtn" class="btn btn--primary">New Post</button>
@@ -63,7 +65,10 @@
 <script src="js/autofill.js"></script>
 <script src="js/model.js"></script>
 <script src="js/view.js"></script>
-<script src="js/storage.js"></script>
+<script src="js/storage/util/helper.js"></script>
+<script src="js/storage/strategies/local_storage_strategy.js"></script>
+<script src="js/storage/strategies/remote_storage_strategy.js"></script>
+<script src="js/storage/storage.js"></script>
 <script src="js/constants.js"></script>
 <script src="js/controller.js"></script>
 </body>
