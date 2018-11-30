@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: model.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: model.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This code intentionally doesn't use OO JavaScript
+ * by not using classes or prototypial inheritance.
+ * The purpose of this exercise at this stage is to
+ * be a segue to OO JavaScript
+ * @namespace Model
+ * */
+(function (window) {
+    window.RedditApp = window.RedditApp || {};
+
+    /**
+     * Model definition for a Comment
+     * @class Comment
+     * @memberOf Model
+     * @param {Model.User} [owner] - The user that owns this comment
+     * @param {string} [message] - The message of the {@link Model.Comment}
+     * */
+    function Comment(owner, message) {
+        if (!(this instanceof Comment)) {
+            return new Comment(owner, message);
+        }
+
+        let _owner = owner instanceof User ? owner : new User(owner + "");
+        let _message = message || "";
+
+        /**
+         * @function Model.Comment#setOwner
+         * @param {Model.User} newOwner - New owner of this comment
+         * */
+        this.setOwner = function (newOwner) {
+            _owner = newOwner instanceof User ? newOwner : new User(newOwner + "");
+        };
+
+        /**
+         * @function Model.Comment#getOwner
+         * @returns {Model.User} the user that this Comment belongs to
+         * */
+        this.getOwner = function () {
+            return _owner;
+        };
+
+        /**
+         * @function Model.Comment#setMessage
+         * @param {string} newMessage - Setter for the new message of this {@link Model.Comment}
+         * */
+        this.setMessage = function (newMessage) {
+            _message = newMessage;
+        };
+
+        /**
+         * @function Model.Comment#getMessage
+         * @returns {string} Message of this {@link Model.Comment}
+         * */
+        this.getMessage = function () {
+            return _message;
+        };
+
+
+        /**
+         * @override
+         * @function Model.Comment#toString
+         * @returns {string} textual representation of the {@link Model.Comment}
+         * */
+        this.toString = function () {
+            return `Owner: ${_owner}
+            Message: ${_message}`;
+        };
+
+        /**
+         * The __type property in the returned
+         * JSON object is for later parsing with JSON.parse.
+         * Via this property we can transform the JSON Objects
+         * back to the function objects they were before serialization.
+         * @function Model.Comment#toJSON
+         * @returns {object} for stringifying function object with JSON.stringify
+         * */
+        this.toJSON = function () {
+            return {
+                owner: _owner.toJSON(),
+                message: _message,
+                __type: TYPES.COMMENT
+            }
+        }
+    }
+
+    /**
+     * A Model definition for Users
+     * @class User
+     * @memberOf Model
+     * @param {string} [username] - Username
+     * @param {string} [password] - Password
+     * */
+    function User(username, password) {
+        if (!(this instanceof User)) {
+            return new User(username, password);
+        }
+        let _username = username || "Guest";
+        let _password = password || "1234";
+
+        /**
+         * @function User#setUsername
+         * @param {string} newUsername - New Username
+         * */
+        this.setUsername = function (newUsername) {
+            _username = newUsername;
+        };
+
+        /**
+         * @function User#getUsername
+         * @returns {string} the username
+         * */
+        this.getUsername = function () {
+            return _username;
+        };
+
+        /**
+         * @function User#setPassword
+         * @param {string} newPassword - The new password
+         * */
+        this.setPassword = function (newPassword) {
+            _password = newPassword;
+        };
+
+        /**
+         * @function User#getPassword
+         * @returns {string} the User password
+         * */
+        this.getPassword = function () {
+            return _password;
+        };
+
+
+        /**
+         * @override
+         * @function User#toString
+         * @returns {string} a textual representation of the {@link Model.User}
+         * */
+        this.toString = function () {
+            return `Username: ${_username}
+            Password: ${_password}`;
+        };
+
+        /**
+         * The __type property in the returned
+         * JSON object is for later parsing with JSON.parse.
+         * Via this property we can transform the JSON Objects
+         * back to the function objects they were before serialization.
+         * @function User#toJSON
+         * @returns {object} for stringifying function object with JSON.stringify
+         * */
+        this.toJSON = function () {
+            return {
+                username: _username,
+                password: _password,
+                __type: TYPES.USER /* Works, because field is only used when accessed, so the script order doesn't matter*/
+            }
+        }
+    }
+
+    /**
+     * Model definition for Topic's
+     * @class Topic
+     * @memberOf Model
+     * @param {string} [name] - Name of the topic
+     * */
+    function Topic(name) {
+        if (!(this instanceof Topic)) {
+            return new Topic(name);
+        }
+        let _name = name || "";
+
+        /**
+         * @function Model.Topic#setName
+         * @param {string} newName - New name of the topic
+         * */
+        this.setName = function (newName) {
+            _name = newName;
+        };
+
+        /**
+         * @function Model.Topic#getName
+         * @returns {string} the name of the Topic
+         * */
+        this.getName = function () {
+            return _name;
+        };
+
+        /**
+         * @override
+         * @function Model.Topic#toString
+         * @returns {string} A textual representation of a Topic
+         * */
+        this.toString = function () {
+            return `Name: ${_name}`;
+        };
+
+
+        /**
+         * The __type property in the returned
+         * JSON object is for later parsing with JSON.parse.
+         * Via this property we can transform the JSON Objects
+         * back to the function objects they were before serialization.
+         * @function Model.Topic#toJSON
+         * @returns {object} Object representation for JSON.stringify
+         * */
+        this.toJSON = function () {
+            return {
+                name: _name,
+                __type: TYPES.TOPIC
+            };
+        }
+    }
+
+    /**
+     * Model definition for a Post
+     * @class Post
+     * @memberOf Model
+     * @param {Model.Topic} [topic] - Topic of the Post
+     * @param {Model.User} [owner] - User that owns the Post
+     * @param {string} [title] - Title of the Post
+     * @param {string} [image] - Image URL of the Post
+     * @param {string} [message] - Message of the Post
+     * */
+    function Post(topic, owner, title, image, message) {
+        if (!(this instanceof Post)) {
+            return new Post(topic, owner, title, image, message);
+        }
+        let _id = Date.now(); // Enough for exercise purposes
+        let _topic = topic instanceof Topic ? topic : new Topic(topic + "");
+        let _owner = owner instanceof User ? owner : new User(owner + "");
+        let _title = title || "";
+        let _image = image || "";
+        let _message = message || "";
+        let _comments = [];
+        let _upVotes = [];
+        let _downVotes = [];
+
+        /**
+         * @function Model.Post#setTopic
+         * @param {Model.Topic} newTopic - Sets the new topic of this {@link Model.Post}
+         * */
+        this.setTopic = function (newTopic) {
+            _topic = newTopic instanceof Topic ? newTopic : new Topic(newTopic + "");
+        };
+
+        /**
+         * @function Model.Post#getTopic
+         * @returns {Model.Topic} of this {@link Model.Post}
+         * */
+        this.getTopic = function () {
+            return _topic;
+        };
+
+        /**
+         * @function Model.Post#setOwner
+         * @param {Model.User} newOwner - The new owner of this {@link Model.Post}
+         * */
+        this.setOwner = function (newOwner) {
+            _owner = newOwner instanceof User ? newOwner : new User(newOwner + "");
+        };
+
+        /**
+         * @function Model.Post#getOwner
+         * @returns {Model.User} the owner of this {@link Model.Post}
+         * */
+        this.getOwner = function () {
+            return _owner;
+        };
+
+        /**
+         * @function Model.Post#setTitle
+         * @returns {string} the title
+         * */
+        this.setTitle = function (newTitle) {
+            _title = newTitle;
+        };
+
+        /**
+         * @function Model.Post#getTitle
+         * @returns {string} the title
+         * */
+        this.getTitle = function () {
+            return _title;
+        };
+
+        /**
+         * @function Model.Post#setImage
+         * @param {string} newImage - Image URL
+         * */
+        this.setImage = function (newImage) {
+            _image = newImage;
+        };
+
+        /**
+         * @function Model.Post#getImage
+         * @returns {string} URL of the image of this {@link Model.Post}
+         * */
+        this.getImage = function () {
+            return _image;
+        };
+
+
+        /**
+         * @function Model.Post#setMessage
+         * @param {string} newMessage - Sets the new message string for this {@link Model.Post}
+         * */
+        this.setMessage = function (newMessage) {
+            _message = newMessage;
+        };
+
+        /**
+         * @function Model.Post#getMessage
+         * @returns {string} the message string of this {@link Model.Post}
+         * */
+        this.getMessage = function () {
+            return _message;
+        };
+
+        /**
+         * @function Model.Post#addComment
+         * @param {Model.Comment} comment - Adds new comment to this {@link Model.Post}
+         * */
+        this.addComment = function (comment) {
+            if (comment instanceof Comment) {
+                _comments.push(comment);
+            } else {
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'Comment'");
+            }
+        };
+
+        /**
+         * @function Model.Post#getComments
+         * @returns {array} An array of {@link Model.Comment}'s of this {@link Model.Post}
+         * */
+        this.getComments = function () {
+            return _comments;
+        };
+
+        /**
+         * @function Model.Post#addUpVote
+         * @param {Model.User} user - Adds the voting user to the array of up voters
+         * */
+        this.addUpVote = function (user) {
+            if (user instanceof User) {
+                if (!this.removeDownVote(user)) {
+                    if (!_upVotes.find((aUser) => aUser.getUsername() === user.getUsername())) {
+                        _upVotes.push(user);
+                    }
+                }
+            } else {
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
+            }
+        };
+
+        /**
+         * @function Model.Post#removeUpVote
+         * @param {Model.User} user - User to be removed from the array of up voters
+         * */
+        this.removeUpVote = function (user) {
+            if (user instanceof User) {
+                let _upVotesCountBefore = _upVotes.length;
+                _upVotes = _upVotes.filter((aUser) => {
+                    return user.getUsername() !== aUser.getUsername();
+                });
+                return _upVotesCountBefore > _upVotes.length;
+            } else {
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
+            }
+        };
+
+        /**
+         * @function Model.Post#addDownVote
+         * @param {Model.User} user - User to be added to the array of down voters
+         * */
+        this.addDownVote = function (user) {
+            if (user instanceof User) {
+                if (!this.removeUpVote(user)) {
+                    if (!_downVotes.find((aUser) => aUser.getUsername() === user.getUsername())) {
+                        _downVotes.push(user);
+                    }
+                }
+            } else {
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
+            }
+        };
+
+        /**
+         * @function Model.Post#removeDownVote
+         * @param {Model.User} user - User to be removed from the array of down voters
+         * */
+        this.removeDownVote = function (user) {
+            if (user instanceof User) {
+                let downVotesCountBefore = _downVotes.length;
+                _downVotes = _downVotes.filter((aUser) => {
+                    return user.getUsername() !== aUser.getUsername();
+                });
+                return downVotesCountBefore > _downVotes.length;
+            } else {
+                NOTIFICATION_MANAGER.showError("Parameter needs to be of type 'User'");
+            }
+        };
+
+        /**
+         * @function Model.Post#getVoteCount
+         * @returns {number} the difference between up votes and down votes
+         * */
+        this.getVoteCount = function () {
+            return _upVotes.length - _downVotes.length;
+        };
+
+        /**
+         * @function Model.Post#getId
+         * @returns {number} the id
+         * */
+        this.getId = function () {
+            return _id;
+        };
+
+        /**
+         * @function Model.Post#setId
+         * @param {number} newId - Sets the new Id for this {@link Model.Post}
+         * */
+        this.setId = function (newId) {
+            _id = newId;
+        };
+
+        /**
+         * @override
+         * @function Model.Post#toString
+         * @returns {string} a textual representation for the {@link Model.Post} object
+         * */
+        this.toString = function () {
+            return `
+          Id: ${_id}
+          Topic: ${_topic}, 
+          Owner:${_owner},
+          Image URL: ${_image},
+          Title:${_title},
+          Message:${_message},
+          UpVotes:${_upVotes.join()},
+          DownVotes:${_downVotes.join()},
+          TotalVotes:${this.getVoteCount()}`;
+        };
+
+        /**
+         * The __type property in the returned
+         * JSON object is for later parsing with JSON.parse.
+         * Via this property we can transform the JSON Objects
+         * back to the function objects they were before serialization.
+         * @function Model.Post#toJSON
+         * @returns {object} for stringifying function object with JSON.stringify
+         * */
+        this.toJSON = function () {
+            return {
+                _id: _id,
+                topic: _topic.toJSON(),
+                owner: _owner.toJSON(),
+                title: _title,
+                image: _image,
+                message: _message,
+                comments: _comments,
+                upVotes: _upVotes,
+                downVotes: _downVotes,
+                __type: TYPES.POST
+            };
+        }
+    }
+
+    /**
+     * @function ModelManager
+     * @memberOf Model
+     * */
+    function ModelManager() {
+        this.Comment = Comment;
+        this.User = User;
+        this.Topic = Topic;
+        this.Post = Post;
+    }
+
+    window.RedditApp.ModelManager = function () {
+        return new ModelManager();
+    };
+
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.Comment.html">Comment</a></li><li><a href="Model.Post.html">Post</a></li><li><a href="Model.Topic.html">Topic</a></li><li><a href="Model.User.html">User</a></li><li><a href="Notification.NotificationManager.html">NotificationManager</a></li><li><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></li><li><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></li></ul><h3>Namespaces</h3><ul><li><a href="Model.html">Model</a></li><li><a href="Notification.html">Notification</a></li><li><a href="Storage.html">Storage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#setup">setup</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccess">showSuccess</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 30 2018 00:47:31 GMT+0100 (Mitteleuropäische Zeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
