@@ -5,10 +5,10 @@
  * be a segue to OO JavaScript
  * @namespace Storage
  * */
-(function(window){
+(function (window) {
 
     window.RedditApp = window.RedditApp || {};
-    if(!window.RedditApp._TO_BE_REMOVED || !window.RedditApp._TO_BE_REMOVED.Transformer){
+    if (!window.RedditApp._TO_BE_REMOVED || !window.RedditApp._TO_BE_REMOVED.Transformer) {
         throw "Module 'Transformer' not found. Check your ordering!";
     }
     let transform = window.RedditApp._TO_BE_REMOVED.Transformer;
@@ -33,8 +33,9 @@
          * Adds a User to remote repository
          * @function Storage.RemoteStorageStrategy#addUser
          * @param {Model.User} user - New User to be added
+         * @param {function} callback - Callback for async structure
          * */
-        that.addUser = function (user) {
+        that.addUser = function (user, callback) {
             if (user instanceof USER) {
                 $.ajax(
                     {
@@ -44,13 +45,16 @@
                         success: (data) => {
                             let newUser = transform(data);
                             NOTIFICATION_MANAGER.showSuccess(`New User "${newUser.getUsername()}" added!`);
+                            callback();
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback();
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
+                callback();
             }
         };
 
@@ -58,8 +62,9 @@
          * Removes a User based on Username from remote repository
          * @function Storage.RemoteStorageStrategy#removeUser
          * @param {Model.User} user - User to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        that.removeUser = function (user) {
+        that.removeUser = function (user, callback) {
             if (user instanceof USER) {
                 $.ajax(
                     {
@@ -67,13 +72,16 @@
                         method: "DELETE",
                         success: () => {
                             NOTIFICATION_MANAGER.showSuccess(`User "${user.getUsername()} successfully removed!"`);
+                            callback(true);
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback(false);
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
+                callback(false);
             }
         };
 
@@ -101,7 +109,7 @@
                     },
                     error: (err) => {
                         NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
-                        callback([]);
+                        callback();
                     }
                 });
         };
@@ -110,8 +118,9 @@
          * Adds a topic to the remote repository.
          * @function Storage.RemoteStorageStrategy#addTopic
          * @param {Model.Topic} topic - Topic to be added
+         * @param {function} callback - Callback for async structure
          * */
-        that.addTopic = function (topic) {
+        that.addTopic = function (topic, callback) {
             if (topic instanceof TOPIC) {
                 $.ajax(
                     {
@@ -121,13 +130,16 @@
                         success: (data) => {
                             let newTopic = transform(data);
                             NOTIFICATION_MANAGER.showSuccess(`New Topic "${newTopic.getName()}" added!`);
+                            callback();
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback();
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'topic' needs to be of Model type Topic");
+                callback();
             }
         };
 
@@ -135,8 +147,9 @@
          * Removes topic from remote storage by topic name
          * @function Storage.RemoteStorageStrategy#removeTopic
          * @param {Model.Topic} topic - Topic to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        that.removeTopic = function (topic) {
+        that.removeTopic = function (topic, callback) {
             if (topic instanceof TOPIC) {
                 $.ajax(
                     {
@@ -144,13 +157,16 @@
                         method: "DELETE",
                         success: () => {
                             NOTIFICATION_MANAGER.showSuccess(`Topic "${topic.getName()} successfully removed!"`);
+                            callback(true);
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback(false);
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'topic' needs to be of Model type Topic");
+                callback(false);
             }
         };
 
@@ -187,8 +203,9 @@
          * Adds a post to remote storage
          * @function Storage.RemoteStorageStrategy#addPost
          * @param {Model.Post} post - Post to be added
+         * @param {function} callback - Callback for async structure
          * */
-        that.addPost = function (post) {
+        that.addPost = function (post, callback) {
             if (post instanceof POST) {
                 $.ajax(
                     {
@@ -197,13 +214,16 @@
                         data: {data: JSON.stringify(post)},
                         success: () => {
                             NOTIFICATION_MANAGER.showSuccess(`New Post with ID "${post.getId()}" added!`);
+                            callback();
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback();
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'post' needs to be of Model type Post");
+                callback();
             }
         };
 
@@ -211,8 +231,9 @@
          * Removes a post from remote storage by its id
          * @function Storage.RemoteStorageStrategy#removePost
          * @param {Model.Post} post - Post to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        that.removePost = function (post) {
+        that.removePost = function (post, callback) {
             if (post instanceof POST) {
                 $.ajax(
                     {
@@ -220,13 +241,16 @@
                         method: "DELETE",
                         success: () => {
                             NOTIFICATION_MANAGER.showSuccess(`Post with ID: "${post.getId()} successfully removed!"`);
+                            callback(true);
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback(false);
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'post' needs to be of Model type Post");
+                callback(false);
             }
         };
 
@@ -234,8 +258,9 @@
          * Sets a user as active user at remote storage
          * @function Storage.RemoteStorageStrategy#setActiveUser
          * @param {Model.User} user - User to be set as active
+         * @param {function} callback - Callback for async structure
          * */
-        that.setActiveUser = function (user) {
+        that.setActiveUser = function (user, callback) {
             if (user instanceof USER) {
                 $.ajax(
                     {
@@ -244,13 +269,16 @@
                         data: {data: JSON.stringify(user)},
                         success: () => {
                             NOTIFICATION_MANAGER.showSuccess(`User "${user.getUsername()}" is now the active User!`);
+                            callback();
                         },
                         error: (err) => {
                             NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                            callback();
                         }
                     });
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
+                callback();
             }
         };
 
@@ -270,12 +298,12 @@
                             callback(activeUser);
                         } else {
                             NOTIFICATION_MANAGER.showError("No active user found!");
-                            callback(null);
+                            callback();
                         }
                     },
                     error: (err) => {
                         NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
-                        callback(null);
+                        callback();
                     }
                 });
         };
@@ -325,7 +353,7 @@
                             callback(activeTopic);
                         } else {
                             NOTIFICATION_MANAGER.showError("No active topic found!");
-                            callback(DEFAULT_TOPIC);
+                            callback();
                         }
                     },
                     error: (err) => {
@@ -334,7 +362,7 @@
                         } else {
                             NOTIFICATION_MANAGER.showError("No active topic found.");
                         }
-                        callback(DEFAULT_TOPIC);
+                        callback();
                     }
                 });
         };
@@ -372,8 +400,9 @@
          * Updates posts at remote storage
          * @function Storage.RemoteStorageStrategy#setPosts
          * @param {array} posts - Array of posts
+         * @param {function} callback - Callback for async structure
          * */
-        that.setPosts = function (posts) {
+        that.setPosts = function (posts, callback) {
             $.ajax(
                 {
                     url: `${BASE_URI}/posts`,
@@ -385,9 +414,11 @@
                         } else {
                             NOTIFICATION_MANAGER.showError("Updating posts failed!");
                         }
+                        callback();
                     },
                     error: (err) => {
                         NOTIFICATION_MANAGER.showError(JSON.parse(err.responseText).message);
+                        callback();
                     }
                 });
         };

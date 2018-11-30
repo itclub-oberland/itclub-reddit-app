@@ -14,10 +14,11 @@
      * namespaces minimally.
      * */
     window.RedditApp = window.RedditApp || {};
+
     let LocalStorageStrategy = window.RedditApp._TO_BE_REMOVED.LocalStorageStrategy;
     let RemoteStorageStrategy = window.RedditApp._TO_BE_REMOVED.RemoteStorageStrategy;
 
-    let BASE_URI = "https://itclub-reddit-server.herokuapp.com"; //"http://localhost:3000";
+    let BASE_URI = "https://itclub-reddit-server.herokuapp.com";
 
     /**
      * A storage interface for persisting data. Uses
@@ -33,9 +34,25 @@
             return new StorageManager();
         }
 
-        this.STRATEGY = {
+        let that = this;
+
+        that.STRATEGY = {
             LOCAL: "LOCAL",
             REMOTE: "REMOTE"
+        };
+
+        /**
+         * A simple wrapper for callback based operations
+         * to automatically add a loader to these kinds
+         * of calls
+         * */
+        let callbackLoadingWrapper = function (rootFunction, ...args) {
+            let loader = NOTIFICATION_MANAGER.showLoader();
+            let callback = args.pop();
+            rootFunction(...args, (...params) => {
+                loader.stop();
+                callback(...params);
+            });
         };
 
         let _activeStrategy = new LocalStorageStrategy();
@@ -44,18 +61,20 @@
          * Interface for adding a user
          * @function Storage.StorageManager#addUser
          * @param {Model.User} user - User to be added
+         * @param {function} callback - Callback for async structure
          * */
-        this.addUser = function (user) {
-            _activeStrategy.addUser(user);
+        that.addUser = function (user, callback) {
+            callbackLoadingWrapper(_activeStrategy.addUser, user, callback);
         };
 
         /**
          * Interface for removing a user
          * @function Storage.StorageManager#removeUser
          * @param {Model.User} user - User to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        this.removeUser = function (user) {
-            _activeStrategy.removeUser(user);
+        that.removeUser = function (user, callback) {
+            callbackLoadingWrapper(_activeStrategy.removeUser, user, callback);
         };
 
         /**
@@ -63,26 +82,28 @@
          * @function Storage.StorageManager#getUsers
          * @param {function} callback - Callback for async structure
          * */
-        this.getUsers = function (callback) {
-            return _activeStrategy.getUsers(callback);
+        that.getUsers = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.getUsers, callback);
         };
 
         /**
          * Interface for adding a topic
          * @function Storage.StorageManager#addTopic
          * @param {Model.Topic} topic - Topic to be added
+         * @param {function} callback - Callback for async structure
          * */
-        this.addTopic = function (topic) {
-            _activeStrategy.addTopic(topic);
+        that.addTopic = function (topic, callback) {
+            callbackLoadingWrapper(_activeStrategy.addTopic, topic, callback);
         };
 
         /**
          * Interface for removing a topic
          * @function Storage.StorageManager#removeTopic
          * @param {Model.Topic} topic - Topic to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        this.removeTopic = function (topic) {
-            _activeStrategy.removeTopic(topic);
+        that.removeTopic = function (topic, callback) {
+            callbackLoadingWrapper(_activeStrategy.removeTopic, topic, callback);
         };
 
         /**
@@ -90,35 +111,38 @@
          * @function Storage.StorageManager#getTopics
          * @param {function} callback - Callback for async structure
          * */
-        this.getTopics = function (callback) {
-            return _activeStrategy.getTopics(callback);
+        that.getTopics = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.getTopics, callback);
         };
 
         /**
          * Interface for adding a post
          * @function Storage.StorageManager#addPost
          * @param {Model.Post} post - Post to be added
+         * @param {function} callback - Callback for async structure
          * */
-        this.addPost = function (post) {
-            _activeStrategy.addPost(post);
+        that.addPost = function (post, callback) {
+            callbackLoadingWrapper(_activeStrategy.addPost, post, callback);
         };
 
         /**
          * Interface for removing a post
          * @function Storage.StorageManager#removePost
          * @param {Model.Post} post - Post to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        this.removePost = function (post) {
-            _activeStrategy.removePost(post);
+        that.removePost = function (post, callback) {
+            callbackLoadingWrapper(_activeStrategy.removePost, post, callback);
         };
 
         /**
          * Interface for setting a user as active
          * @function Storage.StorageManager#setActiveUser
          * @param {Model.User} user - User to be set active
+         * @param {function} callback - Callback for async structure
          * */
-        this.setActiveUser = function (user) {
-            _activeStrategy.setActiveUser(user);
+        that.setActiveUser = function (user, callback) {
+            callbackLoadingWrapper(_activeStrategy.setActiveUser, user, callback);
         };
 
         /**
@@ -126,8 +150,8 @@
          * @function Storage.StorageManager#getActiveUser
          * @param {function} callback - Callback for async structure
          * */
-        this.getActiveUser = function (callback) {
-            return _activeStrategy.getActiveUser(callback);
+        that.getActiveUser = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.getActiveUser, callback);
         };
 
         /**
@@ -136,8 +160,8 @@
          * @param {Model.Topic} topic - Topic to be set as active
          * @param {function} callback - Callback for async structure
          * */
-        this.setActiveTopic = function (topic, callback) {
-            _activeStrategy.setActiveTopic(topic, callback);
+        that.setActiveTopic = function (topic, callback) {
+            callbackLoadingWrapper(_activeStrategy.setActiveTopic, topic, callback);
         };
 
         /**
@@ -145,8 +169,8 @@
          * @function Storage.StorageManager#getActiveTopic
          * @param {function} callback - Callback for async structure
          * */
-        this.getActiveTopic = function (callback) {
-            return _activeStrategy.getActiveTopic(callback);
+        that.getActiveTopic = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.getActiveTopic, callback);
         };
 
         /**
@@ -154,17 +178,18 @@
          * @function Storage.StorageManager#getPosts
          * @param {function} callback - Callback for async structure
          * */
-        this.getPosts = function (callback) {
-            return _activeStrategy.getPosts(callback);
+        that.getPosts = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.getPosts, callback);
         };
 
         /**
          * Interface for setting multiple posts
          * @function Storage.StorageManager#setPosts
          * @param {array} posts - Array of posts
+         * @param {function} callback - Callback for async structure
          * */
-        this.setPosts = function (posts) {
-            _activeStrategy.setPosts(posts);
+        that.setPosts = function (posts, callback) {
+            callbackLoadingWrapper(_activeStrategy.setPosts, posts, callback);
         };
 
         /**
@@ -172,8 +197,8 @@
          * @function Storage.StorageManager#clearUsers
          * @param {function} callback - Callback for async structure
          * */
-        this.clearUsers = function (callback) {
-            _activeStrategy.clearUsers(callback);
+        that.clearUsers = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.clearUsers, callback);
         };
 
         /**
@@ -181,8 +206,8 @@
          * @function Storage.StorageManager#clearTopics
          * @param {function} callback - Callback for async structure
          * */
-        this.clearTopics = function (callback) {
-            _activeStrategy.clearTopics(callback);
+        that.clearTopics = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.clearTopics, callback);
         };
 
         /**
@@ -190,8 +215,8 @@
          * @function Storage.StorageManager#clearPosts
          * @param {function} callback - Callback for async structure
          * */
-        this.clearPosts = function (callback) {
-            _activeStrategy.clearPosts(callback);
+        that.clearPosts = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.clearPosts, callback);
         };
 
         /**
@@ -199,8 +224,8 @@
          * @function Storage.StorageManager#clearActiveUser
          * @param {function} callback - Callback for async structure
          * */
-        this.clearActiveUser = function (callback) {
-            _activeStrategy.clearActiveUser(callback);
+        that.clearActiveUser = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.clearActiveUser, callback);
         };
 
         /**
@@ -208,8 +233,8 @@
          * @function Storage.StorageManager#clearActiveTopic
          * @param {function} callback - Callback for async structure
          * */
-        this.clearActiveTopic = function (callback) {
-            _activeStrategy.clearActiveTopic(callback);
+        that.clearActiveTopic = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.clearActiveTopic, callback);
         };
 
         /**
@@ -217,8 +242,8 @@
          * @function Storage.StorageManager#clearStorage
          * @param {function} callback - Callback for async structure
          * */
-        this.clearStorage = function (callback) {
-            _activeStrategy.clearStorage(callback);
+        that.clearStorage = function (callback) {
+            callbackLoadingWrapper(_activeStrategy.clearStorage, callback);
         };
 
         /**
@@ -226,7 +251,7 @@
          * @function Storage.StorageManager#changeStrategy
          * @param {object} strategy - Strategy object for changing storage strategy
          * */
-        this.changeStrategy = function (strategy) {
+        that.changeStrategy = function (strategy) {
             if (strategy) {
                 if (strategy === this.STRATEGY.LOCAL) {
                     _activeStrategy = new LocalStorageStrategy();

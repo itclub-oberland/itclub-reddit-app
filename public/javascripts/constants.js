@@ -27,5 +27,5 @@ const TOPIC = MODEL_MANAGER.Topic;
 const POST = MODEL_MANAGER.Post;
 const COMMENT = MODEL_MANAGER.Comment;
 
-const DEFAULT_USER = new USER();
+const DEFAULT_USER = new USER("Zmotey");
 const DEFAULT_TOPIC = new TOPIC(DEFAULT_TOPIC_NAME);

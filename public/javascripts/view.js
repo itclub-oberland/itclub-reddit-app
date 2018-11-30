@@ -25,6 +25,7 @@
         this.renderPost = function (post) {
             let top = `
             <div class="reddit-post" id="${post.getId()}">
+                <button data-postid=${post.getId()} class="reddit-post__close-btn"></button>
                 <div class="reddit-post__main">
                     <div class="arrows">
                         <button class="arrows__arrow arrows__arrow--up js-vote-up-btn"></button>

@@ -22,11 +22,13 @@
      * */
     function NotificationManager() {
         let messageDelay = 3000;
+        let that = this;
         /**
-         * @function showSuccess
+         * Shows success messages in green color
+         * @function Notification.NotificationManager#showSuccess
          * @param {string} message - Message for snackbar to show
          * */
-        this.showSuccess = function (message) {
+        that.showSuccess = function (message) {
             let snackbar = $("#snackbar");
             let id = Date.now();
             let domMessage = $(`<div id="${id}" class="message message--success">${message}</div>`);
@@ -37,10 +39,11 @@
         };
 
         /**
-         * @function showSuccess
+         * Shows info messages in a blue color
+         * @function Notification.NotificationManager#showSuccess
          * @param {string} message - Message for snackbar to show
          * */
-        this.showInfo = function (message) {
+        that.showInfo = function (message) {
             let snackbar = $("#snackbar");
             let id = Date.now();
             let domMessage = $(`<div id="${id}" class="message message--info">${message}</div>`);
@@ -51,10 +54,11 @@
         };
 
         /**
-         * @function showError
+         * Shows error messages in red color
+         * @function Notification.NotificationManager#showError
          * @param {string} message - Message for snackbar to show
          * */
-        this.showError = function (message) {
+        that.showError = function (message) {
             let snackbar = $("#snackbar");
             let id = Date.now();
             let domMessage = $(`<div id="${id}" class="message message--failure">${message}</div>`);
@@ -62,6 +66,32 @@
             setTimeout(() => {
                 snackbar.find(`#${id}`).remove();
             }, messageDelay);
+        };
+
+        /**
+         * Shows a blue blinking message when app is loading
+         * @function Notification.NotificationManager#showLoader
+         * @returns {object} A Handle to remove the loader.
+         * */
+        that.showLoader = function () {
+            let snackbar = $("#snackbar");
+            let domMessage = "";
+            if (!snackbar.find(".js-loader-active").length) {
+                domMessage = $(`<div class="message message--loading js-loader-active">Loading...</div>`);
+            } else {
+                domMessage = $(`<div class="message message--loading js-loader-hidden" hidden></div>`);
+            }
+            snackbar.append(domMessage);
+            return {
+                stop: function () {
+                    let hiddenLoaders = snackbar.find(".js-loader-hidden");
+                    if (hiddenLoaders.length) {
+                        $(hiddenLoaders.get(0)).remove();
+                    } else {
+                        snackbar.find(".js-loader-active").remove();
+                    }
+                }
+            }
         }
     }
 

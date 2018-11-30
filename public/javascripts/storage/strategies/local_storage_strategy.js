@@ -37,8 +37,9 @@
          * Storage KEYS.
          * @function Storage.LocalStorageStrategy#addUser
          * @param {Model.User} user - A user
+         * @param {function} callback - Callback for async structure
          * */
-        that.addUser = function (user) {
+        that.addUser = function (user, callback) {
             if (user instanceof USER) {
                 if (localStorage.getItem(KEYS.USERS_KEY) !== null) {
                     that.getUsers((users) => {
@@ -54,18 +55,21 @@
                     });
                 } else {
                     localStorage.setItem(KEYS.USERS_KEY, JSON.stringify([user]));
+                    NOTIFICATION_MANAGER.showSuccess(`New User "${user.getUsername()}" added.`);
                 }
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
             }
+            callback();
         };
 
         /**
          * Removes a user from storage.
          * @function Storage.LocalStorageStrategy#removeUser
          * @param {Model.User} user - User to be removed.
+         * @param {function} callback - Callback for async structure
          * */
-        that.removeUser = function (user) {
+        that.removeUser = function (user, callback) {
             if (user instanceof USER) {
                 if (localStorage.getItem(KEYS.USERS_KEY) !== null) {
                     this.getUsers((users) => {
@@ -74,10 +78,14 @@
                         });
                         localStorage.setItem(KEYS.USERS_KEY, JSON.stringify(users));
                         NOTIFICATION_MANAGER.showSuccess(`User "${user.getUsername()}" removed successfuly!`);
+                        callback(true);
                     });
+                } else {
+                    callback(false);
                 }
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
+                callback(false);
             }
         };
 
@@ -104,8 +112,9 @@
          * in the localStorage.
          * @function Storage.LocalStorageStrategy#addTopic
          * @param {Model.Topic} topic - A topic
+         * @param {function} callback - Callback for async structure
          * */
-        that.addTopic = function (topic) {
+        that.addTopic = function (topic, callback) {
             if (topic instanceof TOPIC) {
                 if (localStorage.getItem(KEYS.TOPICS_KEY) !== null) {
                     that.getTopics((topics) => {
@@ -126,6 +135,7 @@
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'topic' needs to be of Model type Topic");
             }
+            callback();
         };
 
         /**
@@ -133,8 +143,9 @@
          * in the localStorage.
          * @function Storage.LocalStorageStrategy#removeTopic
          * @param {Model.Topic} topic - Topic to be removed
+         * @param {function} callback - Callback for async structure
          * */
-        that.removeTopic = function (topic) {
+        that.removeTopic = function (topic, callback) {
             if (topic instanceof TOPIC) {
                 if (localStorage.getItem(KEYS.TOPICS_KEY) !== null) {
                     that.getTopics((topics) => {
@@ -143,10 +154,14 @@
                         });
                         localStorage.setItem(KEYS.TOPICS_KEY, JSON.stringify(topics));
                         NOTIFICATION_MANAGER.showSuccess(`Topic "${topic.getName()}" removed.`);
+                        callback(true);
                     });
+                }else{
+                    callback(false);
                 }
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
+                callback(false);
             }
         };
 
@@ -172,8 +187,9 @@
          * in the storage.
          * @function Storage.LocalStorageStrategy#addPost
          * @param {Model.Post} post - A post
+         * @param {function} callback - Callback for async structure
          * */
-        that.addPost = function (post) {
+        that.addPost = function (post, callback) {
             if (post instanceof POST) {
                 if (localStorage.getItem(KEYS.POSTS_KEY) !== null) {
                     that.getPosts((posts) => {
@@ -188,6 +204,7 @@
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'post' needs to be of Model type Post");
             }
+            callback();
         };
 
         /**
@@ -195,22 +212,23 @@
          * in the storage.
          * @function Storage.LocalStorageStrategy#removePost
          * @param {Model.Post} post - Post to be removed.
+         * @param {function} callback - Callback for async structure
          * */
-        that.removePost = function (post) {
+        that.removePost = function (post, callback) {
             if (post instanceof POST) {
                 if (localStorage.getItem(KEYS.POSTS_KEY) !== null) {
                     that.getPosts((posts) => {
                         posts = posts.filter((aPost) => {
-                            return !(aPost.getTitle() === post.getTitle()
-                                && aPost.getOwner().getUsername() === post.getOwner().getUsername()
-                                && aPost.getTopic().getName() === post.getTopic().getName());
+                            return aPost.getId() !== post.getId();
                         });
                         localStorage.setItem(KEYS.POSTS_KEY, JSON.stringify(posts));
                         NOTIFICATION_MANAGER.showSuccess(`Post with ID "${post.getId()}" removed.`);
+                        callback(true);
                     });
                 }
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
+                callback(false);
             }
         };
 
@@ -237,12 +255,14 @@
          * storage key.
          * @function Storage.LocalStorageStrategy#setPosts
          * @param {array} posts - An array of posts
+         * @param {function} callback - Callback for async structure
          * */
-        that.setPosts = function (posts) {
+        that.setPosts = function (posts, callback) {
             posts = posts.filter((aPost) => {
                 return aPost instanceof POST;
             });
             localStorage.setItem(KEYS.POSTS_KEY, JSON.stringify(posts));
+            callback();
         };
 
         /**
@@ -250,14 +270,16 @@
          * in the localStorage.
          * @function Storage.LocalStorageStrategy#setActiveUser
          * @param {Object} user - Current active user
+         * @param {function} callback - Callback for async structure
          * */
-        that.setActiveUser = function (user) {
+        that.setActiveUser = function (user, callback) {
             if (user instanceof USER) {
                 localStorage.setItem(KEYS.ACTIVE_USER_KEY, JSON.stringify(user));
                 NOTIFICATION_MANAGER.showSuccess(`User "${user.getUsername()}" is now active.`);
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
             }
+            callback();
         };
 
 
@@ -280,10 +302,10 @@
             if (topic instanceof TOPIC) {
                 localStorage.setItem(KEYS.ACTIVE_TOPIC_KEY, JSON.stringify(topic));
                 NOTIFICATION_MANAGER.showSuccess(`Topic "${topic.getName()}" is now active.`);
-                callback();
             } else {
                 NOTIFICATION_MANAGER.showError("Parameter 'user' needs to be of Model type User");
             }
+            callback();
         };
 
         /**

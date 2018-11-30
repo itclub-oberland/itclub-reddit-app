@@ -26,23 +26,46 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>function setupDefaults(callback) {
+            <pre class="prettyprint source linenums"><code>function initActiveTopic(callback) {
+    STORAGE_MANAGER.getActiveTopic((activeTopic) => {
+        if (!activeTopic) {
+            STORAGE_MANAGER.getTopics((topics) => {
+                if (!topics.length) {
+                    STORAGE_MANAGER.addTopic(DEFAULT_TOPIC, () => {
+                        STORAGE_MANAGER.setActiveTopic(DEFAULT_TOPIC, callback);
+                    });
+                } else {
+                    STORAGE_MANAGER.setActiveTopic(topics[0], callback);
+                }
+            });
+        } else {
+            callback();
+        }
+    });
+}
+
+function initActiveUser(callback) {
     STORAGE_MANAGER.getActiveUser((activeUser) => {
         if (!activeUser) {
-            let defaultUser = new USER("Zmotey", "123");
-            STORAGE_MANAGER.addUser(defaultUser);
-            STORAGE_MANAGER.setActiveUser(defaultUser);
+            STORAGE_MANAGER.getUsers((users) => {
+                if (!users.length) {
+                    STORAGE_MANAGER.addUser(DEFAULT_USER, () => {
+                        STORAGE_MANAGER.setActiveUser(DEFAULT_USER, callback);
+                    });
+                } else {
+                    STORAGE_MANAGER.setActiveUser(users[0], callback);
+                }
+            })
+        } else {
+            callback();
         }
-        STORAGE_MANAGER.getTopics((topics) => {
-            if (!topics.length) {
-                let defaultTopic = new TOPIC(DEFAULT_TOPIC_NAME);
-                STORAGE_MANAGER.addTopic(defaultTopic);
-                STORAGE_MANAGER.setActiveTopic(defaultTopic, callback);
-            }else{
-                if(callback) callback();
-            }
-        });
     });
+}
+
+function setupDefaults(callback) {
+    initActiveUser(() => {
+        initActiveTopic(callback);
+    })
 }
 
 function getNewPostValues() {
@@ -82,7 +105,7 @@ function refreshUsersDropdown(callback) {
                     activeUser,
                     users)
             );
-            if(callback) callback();
+            callback();
         });
     });
 }
@@ -105,7 +128,7 @@ function refreshRedditStream(posts) {
     }
 }
 
-function filterPosts(selectedTopic) {
+function filterPosts(selectedTopic, callback) {
     STORAGE_MANAGER.getPosts((posts) => {
         if (selectedTopic.getName() !== DEFAULT_TOPIC_NAME) {
             posts = posts.filter((aPost) => {
@@ -113,6 +136,7 @@ function filterPosts(selectedTopic) {
             });
         }
         refreshRedditStream(posts);
+        callback();
     });
 }
 
@@ -121,13 +145,11 @@ function updateRedditStream(topicName, callback) {
         let selectedTopic = topics.find((aTopic) => aTopic.getName() === topicName);
         if (!selectedTopic) {
             STORAGE_MANAGER.getActiveTopic((activeTopic) => {
-                filterPosts(activeTopic);
-                if(callback) callback();
+                filterPosts(activeTopic, callback);
             });
         } else {
             STORAGE_MANAGER.setActiveTopic(selectedTopic, () => {
-                filterPosts(selectedTopic);
-                if(callback) callback();
+                filterPosts(selectedTopic, callback);
             });
         }
     });
@@ -157,32 +179,33 @@ function refreshStreamListeners() {
             let post = findPost(root, posts);
             if (post) {
                 callback(post, () => {
-                    STORAGE_MANAGER.setPosts(posts);
-                    root.find(".js-vote-count-text").html(post.getVoteCount());
+                    STORAGE_MANAGER.setPosts(posts, () => {
+                        root.find(".js-vote-count-text").html(post.getVoteCount());
+                    });
                 });
             }
         });
     }
 
-    $(".js-vote-up-btn").click(function (event) {
+    $(".js-vote-up-btn").unbind().click(function (event) {
         votingTemplate(event, (post, callback) => {
             STORAGE_MANAGER.getActiveUser((activeUser) => {
                 post.addUpVote(activeUser);
-                if(callback) callback();
+                callback();
             });
         })
     });
 
-    $(".js-vote-down-btn").click(function (event) {
+    $(".js-vote-down-btn").unbind().click(function (event) {
         votingTemplate(event, (post, callback) => {
             STORAGE_MANAGER.getActiveUser((activeUser) => {
                 post.addDownVote(activeUser);
-                if(callback) callback();
+                callback();
             });
         });
     });
 
-    $(".js-comment-btn").click(function (event) {
+    $(".js-comment-btn").unbind().click(function (event) {
         STORAGE_MANAGER.getPosts((posts) => {
             let root = findRoot(event);
             let commentInputValue = root.find(".reddit-post__comment-message-input").val();
@@ -191,11 +214,12 @@ function refreshStreamListeners() {
                 try {
                     STORAGE_MANAGER.getActiveUser((activeUser) => {
                         post.addComment(new COMMENT(activeUser, commentInputValue));
-                        STORAGE_MANAGER.setPosts(posts);
-                        let commentSection = root.find(".reddit-post__comments");
-                        commentSection.html(VIEW_MANAGER.renderComments(post.getComments()));
-                        root.find(".reddit-post__comment-message-input").val("");
-                        NOTIFICATION_MANAGER.showSuccess("New Comment added successfully!");
+                        STORAGE_MANAGER.setPosts(posts, () => {
+                            let commentSection = root.find(".reddit-post__comments");
+                            commentSection.html(VIEW_MANAGER.renderComments(post.getComments()));
+                            root.find(".reddit-post__comment-message-input").val("");
+                            NOTIFICATION_MANAGER.showSuccess("New Comment added successfully!");
+                        });
                     });
                 } catch (ex) {
                     NOTIFICATION_MANAGER.showError(ex);
@@ -215,7 +239,7 @@ function refreshStreamListeners() {
         });
     }
 
-    $(".js-show-comments").click(function (event) {
+    $(".js-show-comments").unbind().click(function (event) {
         showComments(event);
     });
 
@@ -228,13 +252,25 @@ function refreshStreamListeners() {
         });
     }
 
-    $(".js-hide-comments").click(function (event) {
+    $(".js-hide-comments").unbind().click(function (event) {
         hideComments(event);
+    });
+
+    $(".reddit-post__close-btn").unbind().click(function (event) {
+        let elem = $(event.target);
+        let postId = elem.data("postid");
+        let postToBeRemovedDummy = new POST();
+        postToBeRemovedDummy.setId(postId);
+        STORAGE_MANAGER.removePost(postToBeRemovedDummy, (hasSucceded) => {
+            if (hasSucceded) {
+                findRoot(event).remove();
+            }
+        });
     });
 }
 
 function updateTopicListeners() {
-    $(".js-topic-btn").click(function (event) {
+    $(".js-topic-btn").unbind().click(function (event) {
         let selectedTopicName = $(event.target).html();
         updateRedditStream(selectedTopicName, () => {
             refreshTopicsList();
@@ -252,7 +288,7 @@ function refreshTopicsList(callback) {
             }
             newTopicSection.before(VIEW_MANAGER.renderTopicsList(activeTopic, topics));
             updateTopicListeners();
-            if (callback) callback();
+            callback();
         });
     });
 }
@@ -262,7 +298,7 @@ function refreshTopicDropdown(callback) {
     newPostCategory.empty();
     STORAGE_MANAGER.getTopics((topics) => {
         newPostCategory.append(VIEW_MANAGER.renderTopicDropdown(topics));
-        if (callback) callback();
+        callback();
     });
 }
 
@@ -271,8 +307,9 @@ function init() {
         refreshUsersDropdown(() => {
             refreshTopicsList(() => {
                 refreshTopicDropdown(() => {
-                    updateRedditStream();
-                    NOTIFICATION_MANAGER.showInfo("App initialized");
+                    updateRedditStream(null, () => {
+                        NOTIFICATION_MANAGER.showInfo("App initialized");
+                    });
                 });
             })
         });
@@ -285,7 +322,7 @@ function init() {
 function setup() {
     init();
 
-    $("#newPostBtn").click(function () {
+    $("#newPostBtn").unbind().click(function () {
         try {
             let readNewPostValues = getNewPostValues();
             STORAGE_MANAGER.getActiveUser((activeUser) => {
@@ -296,16 +333,17 @@ function setup() {
                     readNewPostValues.newPostImageUrl,
                     readNewPostValues.newPostMessage
                 );
-                STORAGE_MANAGER.addPost(newPost);
-                STORAGE_MANAGER.getActiveTopic((activeTopic) => {
-                    if (newPost.getTopic().getName() === activeTopic.getName()
-                        || activeTopic.getName() === DEFAULT_TOPIC_NAME) {
-                        $(".reddit-stream").prepend(VIEW_MANAGER.renderPost(newPost));
-                        refreshStreamListeners();
-                    }
-                    $("#newPostTitle").val("");
-                    $("#newPostImageUrl").val("");
-                    $("#newPostMessage").val("");
+                STORAGE_MANAGER.addPost(newPost, () => {
+                    STORAGE_MANAGER.getActiveTopic((activeTopic) => {
+                        if (newPost.getTopic().getName() === activeTopic.getName()
+                            || activeTopic.getName() === DEFAULT_TOPIC_NAME) {
+                            $(".reddit-stream").prepend(VIEW_MANAGER.renderPost(newPost));
+                            refreshStreamListeners();
+                        }
+                        $("#newPostTitle").val("");
+                        $("#newPostImageUrl").val("");
+                        $("#newPostMessage").val("");
+                    });
                 });
             });
         } catch (ex) {
@@ -313,43 +351,49 @@ function setup() {
         }
     });
 
-    $("#newUserBtn").click(function () {
+    $("#newUserBtn").unbind().click(function () {
         try {
             let readUserValues = getNewUserValues();
             let newUser = new USER(readUserValues.username, readUserValues.password);
-            STORAGE_MANAGER.addUser(newUser);
-            refreshUsersDropdown();
-            $("#username").val("");
-            $("#password").val("");
+            STORAGE_MANAGER.addUser(newUser, () => {
+                refreshUsersDropdown(() => {
+                    $("#username").val("");
+                    $("#password").val("");
+                });
+            });
         } catch (ex) {
             NOTIFICATION_MANAGER.showError(ex);
         }
     });
 
-    $("#usersDropdown").change(function () {
+    $("#usersDropdown").unbind().change(function () {
         try {
             let activeUserName = $("#usersDropdown :selected").val();
             STORAGE_MANAGER.getUsers((users) => {
                 let activeUser = users.find((user) => {
                     return user.getUsername() === activeUserName;
                 });
-                STORAGE_MANAGER.setActiveUser(activeUser);
-                refreshUsersDropdown();
+                STORAGE_MANAGER.setActiveUser(activeUser, () => {
+                    refreshUsersDropdown(()=>{});
+                });
             });
         } catch (ex) {
             NOTIFICATION_MANAGER.showError("Something went wrong during Active User change!");
         }
     });
 
-    $("#addNewTopicBtn").click(function () {
+    $("#addNewTopicBtn").unbind().click(function () {
         try {
             let readNewTopicValue = getNewTopicValue();
             if (readNewTopicValue.newTopicName) {
                 let newTopic = new TOPIC(readNewTopicValue.newTopicName);
-                STORAGE_MANAGER.addTopic(newTopic);
-                refreshTopicsList();
-                refreshTopicDropdown();
-                $("#newTopic").val("");
+                STORAGE_MANAGER.addTopic(newTopic, () => {
+                    refreshTopicsList(() => {
+                        refreshTopicDropdown(() => {
+                            $("#newTopic").val("");
+                        });
+                    });
+                });
             } else {
                 NOTIFICATION_MANAGER.showError("No Topic name entered!");
             }
@@ -358,7 +402,7 @@ function setup() {
         }
     });
 
-    $("#autoFillNewPostBtn").click(function () {
+    $("#autoFillNewPostBtn").unbind().click(function () {
         let randomContent = AUTOFILL_MANAGER[Math.floor(Math.random() * AUTOFILL_MANAGER.length)];
         let header = "Header";
         let image = "https://cdn.mos.cms.futurecdn.net/Jcxu2eRWDRQiA8BV9cScjb.jpg";
@@ -380,7 +424,7 @@ function setup() {
         topics.prop('selectedIndex', Math.floor(Math.random() * topics.find("option").length));
     });
 
-    $("#clearStorageBtn").click(function () {
+    $("#clearStorageBtn").unbind().click(function () {
         STORAGE_MANAGER.clearStorage(() => {
             location.reload();
         });
@@ -397,13 +441,13 @@ $(document).ready(setup);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.Comment.html">Comment</a></li><li><a href="Model.Post.html">Post</a></li><li><a href="Model.Topic.html">Topic</a></li><li><a href="Model.User.html">User</a></li><li><a href="Notification.NotificationManager.html">NotificationManager</a></li><li><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></li><li><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></li></ul><h3>Namespaces</h3><ul><li><a href="Model.html">Model</a></li><li><a href="Notification.html">Notification</a></li><li><a href="Storage.html">Storage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#setup">setup</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccess">showSuccess</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.Comment.html">Comment</a></li><li><a href="Model.Post.html">Post</a></li><li><a href="Model.Topic.html">Topic</a></li><li><a href="Model.User.html">User</a></li><li><a href="Notification.NotificationManager.html">NotificationManager</a></li><li><a href="Storage.LocalStorageStrategy.html">LocalStorageStrategy</a></li><li><a href="Storage.RemoteStorageStrategy.html">RemoteStorageStrategy</a></li></ul><h3>Namespaces</h3><ul><li><a href="Model.html">Model</a></li><li><a href="Notification.html">Notification</a></li><li><a href="Storage.html">Storage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#setup">setup</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 30 2018 00:47:31 GMT+0100 (Mitteleuropäische Zeit)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 30 2018 16:52:16 GMT+0100 (Mitteleuropäische Zeit)
 </footer>
 
 <script> prettyPrint(); </script>
