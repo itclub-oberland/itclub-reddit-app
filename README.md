@@ -35,6 +35,16 @@ So essentially, you can "neutralize" your votes on a Post
 - Operation success/failure reporting via Snackbar or similar
 - Usage of function objects and instance checks
 - Modular infrastructure
+- Remove User / Update User
+- Remove Topic / Update Topic
+- Remove Post / Update Post
+- Remove Comment / Update Comment
+- Login / Registration
+- User separate streams
+
+## Additional tasks
+- Refactoring of duplicate code
+- Tests
 
 ## App Template:
 ![Reddit App Template](https://github.com/itclub-oberland/itclub-reddit-app/raw/master/res/reddit_app_elements_updated.jpg)
